@@ -2,3 +2,6 @@ linked_list/.vscode/settings.json
 linked_list/.vscode/c_cpp_properties.json
 linked_list/.vscode/launch.json
 linked_list/.vscode/tasks.json
+linked_stack/Makefile
+linked_stack/main
+linked_list/main
