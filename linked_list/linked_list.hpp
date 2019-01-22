@@ -5,7 +5,7 @@ Ivan Diliso
 #ifndef _LINKED_LIST_H
 #define _LINKED_LIST_H
 
-#include "linear_list.hpp"
+#include "../linear_list.hpp"
 #include <iostream>
 
 template <class T>
