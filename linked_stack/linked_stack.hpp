@@ -36,7 +36,7 @@ public:
     void print(){
         Node<T>* temp = _head;
         while(temp != nullptr){
-            std::cout << temp->_value;
+            std::cout << temp->_value << " ";
             temp = temp->_prev;
         }
     }
