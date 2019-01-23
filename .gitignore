@@ -6,9 +6,9 @@ linked_stack/.vscode/settings.json
 linked_stack/.vscode/c_cpp_properties.json
 linked_stack/.vscode/launch.json
 linked_stack/.vscode/tasks.json
-linked_stack/Makefile
 linked_stack/main
 linked_list/main
+queue/main
 queue/.vscode/c_cpp_properties.json
 queue/.vscode/launch.json
 queue/.vscode/settings.json
