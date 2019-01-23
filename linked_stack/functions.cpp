@@ -4,50 +4,55 @@
 
 using namespace std;    
 float evaluate_postfix(string);
-string infix_to_postfix(string expr);
+string infix_to_postfix(string);
+void quicksort(int*,int);
+void swap(int &, int &);
 
 int main(){
 
-    string expr;
-    //cin >> expr;
-    //cout << evaluate_postfix(expr); 
-    cin >> expr;
-    cout << infix_to_postfix(expr);
+    // string expr;
+    // cin >> expr;
+    // cout << evaluate_postfix(expr); 
+    // cin >> expr;
+    // cout << infix_to_postfix(expr);
+
+    //int a[] = {10,9,8,7,6,5,4,3,2,1};
+    //quicksort(a,10);
+
+    // for(int i = 0; i<10; i++){
+    //     cout << a[i] << " ";
+    // }
 
     return 0;
 }
+
 float evaluate_postfix(string expr){
     Stack<float> st;
     for(char &token : expr){
         // Number
         if(token >= '0' && token <= '9'){
             st.push(token - '0');
-        }
-        // Addition
-        if(token == '+'){
+        }else{
             float operand_1 = st.read(); st.pop();
-            float result = st.read() + operand_1; st.pop();
-            st.push(result);
-        }
-        // Product
-        if(token == '*'){
-            float operand_1 = st.read(); st.pop();
-            float result = st.read() * operand_1; st.pop();
-            st.push(result);
-        }
-        // Division
-        if(token == '/'){
-            float operand_1 = st.read(); st.pop();
-            float result = st.read() / operand_1; st.pop();
-            st.push(result);
-        }
-        // Sottraction
-        if(token == '-'){
-            float operand_1 = st.read(); st.pop();
-            float result = st.read() - operand_1; st.pop();
-            st.push(result);
-        }
+            float result;
 
+            switch(token){
+                case '+':
+                    result = st.read() + operand_1;
+                    break;
+                case '-':
+                    result = st.read() - operand_1;
+                    break;
+                case '/':
+                    result = st.read() / operand_1;
+                    break;
+                case '*':
+                    result = st.read() * operand_1;
+                    break;
+            }
+            st.pop();
+            st.push(result);
+        }
        cout << "[" << token << "]"; st.print(); cout << endl;
     }
     return st.read();
@@ -74,3 +79,40 @@ string infix_to_postfix(string expr){
     return output;    
 }
 
+void quicksort(int* a, int n){
+    int left, right, i, j, pivot, var;
+    Stack<int> pila;
+    pila.push(0); pila.push(n-1);
+
+    while(!pila.empty()){
+        j = right = pila.read(); pila.pop();
+        i = left = pila.read(); pila.pop();
+        pivot = a[(i+j)/2];
+
+        while(i<=j){
+            while(a[i] < pivot) i++;
+            while(pivot < a[j]) j--;
+            
+            if(i<=j){
+                if(i != j) swap(a[i],a[j]);
+                i++; j--;
+            }
+        }
+
+        if(left < j){
+            pila.push(left);
+            pila.push(j);
+        }
+        if(i < right){
+            pila.push(i);
+            pila.push(right);
+        }
+    }
+}
+
+
+void swap(int &a, int &b){
+    int temp = a;
+    a = b;
+    b = temp;
+}
