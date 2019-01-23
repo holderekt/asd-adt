@@ -52,6 +52,9 @@ public:
     // Overload Operators
     bool operator==(const Linked_list<T>&) const;
     Linked_list<T>& operator=(const Linked_list<T>&);
+
+    template <class Z>
+    friend std::ostream& operator<<(std::ostream&, const Linked_list<Z>&);
     
 private:
     Node<T>* _head;

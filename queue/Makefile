@@ -1,5 +1,5 @@
 all : main
 
-main: functions.cpp linked_stack.hpp
+main: functions.cpp queue.hpp 
 	clear
 	g++ -o main functions.cpp
