@@ -13,3 +13,8 @@ queue/.vscode/c_cpp_properties.json
 queue/.vscode/launch.json
 queue/.vscode/settings.json
 queue/.vscode/tasks.json
+set/.vscode/tasks.json
+set/.vscode/c_cpp_properties.json
+set/.vscode/launch.json
+set/.vscode/settings.json
+set/main
