@@ -18,3 +18,8 @@ set/.vscode/c_cpp_properties.json
 set/.vscode/launch.json
 set/.vscode/settings.json
 set/main
+hash_table/main
+hash_table/.vscode/c_cpp_properties.json
+hash_table/.vscode/launch.json
+hash_table/.vscode/settings.json
+hash_table/.vscode/tasks.json
