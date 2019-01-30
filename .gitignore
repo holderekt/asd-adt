@@ -23,3 +23,8 @@ hash_table/.vscode/c_cpp_properties.json
 hash_table/.vscode/launch.json
 hash_table/.vscode/settings.json
 hash_table/.vscode/tasks.json
+bintree/main
+bintree/.vscode/c_cpp_properties.json
+bintree/.vscode/launch.json
+bintree/.vscode/settings.json
+bintree/.vscode/tasks.json
