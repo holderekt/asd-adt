@@ -33,8 +33,17 @@ public:
     typedef BTNode<T> Node;
 
     Binary_Tree();
+
     Node* insertdx(Node* , const value_type);
     Node* insertsx(Node* , const value_type);
+    Node* sx(Node*) const;
+    Node* dx(Node*) const;
+    Node* parent(Node*) const;
+    bool isEmpty_sx(Node*) const;
+    bool isEmpty_dx(Node*) const;
+    bool isEmpty() const;
+    value_type read(Node*) const;
+    void write(Node*, value_type); 
     Node* insert_root(const value_type);
     Node* get_root() const;
     void print(std::ostream&, Node*, int, std::string);
@@ -46,6 +55,50 @@ private:
     Node* root;
     size_t size;
 };
+
+template <class T>
+void Binary_Tree<T>::write(Node* n, value_type value){
+    if(n != nullptr){
+        n->value = value;
+    }else{
+        throw "Nodo nullo";
+    }
+}
+
+template <class T>
+typename Binary_Tree<T>::value_type Binary_Tree<T>::read(Node* n) const{
+    return n->value;
+}
+
+template <class T>
+bool Binary_Tree<T>::isEmpty() const{
+    return (root == nullptr);
+}
+
+template <class T>
+bool Binary_Tree<T>::isEmpty_dx(Node* n) const{
+    return (n->right == nullptr);
+}
+
+template <class T>
+bool Binary_Tree<T>::isEmpty_sx(Node* n) const{
+    return (n->left == nullptr);
+}
+
+template <class T>
+typename Binary_Tree<T>::Node* Binary_Tree<T>::parent(Node* n) const{
+    return n->parent;
+}
+
+template <class T>
+typename Binary_Tree<T>::Node* Binary_Tree<T>::dx(Node* n) const{
+    return n->right;
+}
+
+template <class T>
+typename Binary_Tree<T>::Node* Binary_Tree<T>::sx(Node* n) const{
+    return n->left;
+}
 
 template <class T>
 std::ostream& operator<<(std::ostream& os, Binary_Tree<T>& tree){
