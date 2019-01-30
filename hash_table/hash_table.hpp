@@ -12,6 +12,12 @@ public:
     size_t operator()(const T) const;
 };
 
+struct KeyNotFoundError : public std::exception{
+    const char * message() const throw(){
+        return "Key Not Found";
+    }
+};
+
 template<>
 class Hash<std::string>{
 public:
@@ -28,6 +34,9 @@ template<class K, class E>
 struct DPair{
     K key;
     E value;
+
+    DPair(){};
+    DPair(K key,E value): key(key), value(value){};
 
     inline void operator=(E value){
         this->value = value;
@@ -54,22 +63,21 @@ public:
     // Constructor and destructors 
     Hash_Table(size_t);
     Hash_Table(const Hash_Table<K,E>&);
-    //~Hash_Table();
+    ~Hash_Table();
 
     // Operators
     void create();
     bool empty() const;
     size_t size() const;
-    DPair<K,E>* find(const key&) const;
-    size_t search(const key&) const;
     bool insert(const DPair<K,E>&);
     void erase(const key&);
-    void modify(const key&, const value&);
+    void resize();
 
     // Overload operands
     template<class KK, class EE>
     friend std::ostream& operator<<(std::ostream&, Hash_Table<KK,EE>&);
-    DPair<K,E>& operator[](const key&);
+    int operator[](const key&) const;
+    int& operator[](const key&); 
 
 
 private:
@@ -77,19 +85,49 @@ private:
     Hash<K> fhash;
     size_t dsize;
     size_t divisor;
+
+    size_t search(const key&) const;
 };
+
+
+template<class K,class E>
+Hash_Table<K,E>::Hash_Table(const Hash_Table<K,E>& ht){
+    this->divisor = ht.divisor;
+    this->table = new DPair<K,E>*[divisor];
+    this->dsize = ht.dsize;
+
+    for(int i=0; i!=divisor; i++){
+        if(ht.table[i] != nullptr){
+            this->table[i] = new DPair<K,E>(ht.table[i]->key, ht.table[i]->value);            
+        }else{
+            this->table[i] = nullptr;
+        }
+    }
+}
+
+template <class K, class E>
+Hash_Table<K,E>::~Hash_Table(){
+    for(int i = 0; i!=divisor; i++){
+        if(table[i] != nullptr){
+            delete table[i];
+        }
+    }
+    delete [] table;
+}
 
 template<class K, class E>
 std::ostream& operator<<(std::ostream& os, Hash_Table<K,E>& ht){
     os << "[";
-   for(int i = 0; i!= ht.divisor; i++){
-       if(ht.table[i] != nullptr){
-           if(i != 0) os << ",";
-            os << "{" << ht.table[i]->key << " : " << ht.table[i]->value << "}";    
-       }
-   }
-   os << "]";
-   return os;
+    bool flag = false;
+    for(int i = 0, count = 0; i!= ht.divisor; i++){
+        if(ht.table[i] != nullptr){
+            os << "{" << ht.table[i]->key << " : " << ht.table[i]->value << "}"; 
+            count++;   
+            if(count != ht.dsize) os << ",";
+        }
+    }
+    os << "]";
+    return os;
 }
 
 template<class K,class E>
@@ -142,14 +180,40 @@ bool Hash_Table<K,E>::insert(const DPair<K,E>& pair){
 
 
 template <class K, class E>
-DPair<K,E>& Hash_Table<K,E>::operator[](const key& key){
+int& Hash_Table<K,E>::operator[](const key& key){
     size_t pos = search(key);
 
     if(table[pos] == nullptr || table[pos]->key != key){
-        throw "Not found";
+        throw KeyNotFoundError();
+        
     }else{
-        return *table[pos];
+        return table[pos]->value;
     }
 }
 
+template <class K, class E>
+int Hash_Table<K,E>::operator[](const key& key) const{
+    size_t pos = search(key);
 
+    if(table[pos] == nullptr || table[pos]->key != key){
+        throw KeyNotFoundError();
+        
+    }else{
+        return table[pos]->value;
+    }
+}
+
+template <class K, class E>
+void Hash_Table<K,E>::erase(const key& key){
+    size_t pos = search(key);
+
+    if(table[pos] == nullptr || table[pos]->key != key){
+        throw KeyNotFoundError();
+        
+    }else{
+        DPair<K,E> *pair = table[pos];
+        table[pos] = nullptr;
+        delete(pair);
+        --dsize;
+    }
+}
