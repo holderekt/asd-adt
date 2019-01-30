@@ -42,7 +42,6 @@ public:
     template <class Z>
     friend std::ostream& operator<<(std::ostream&, Binary_Tree<Z>&);
 
-
 private:
     Node* root;
     size_t size;
