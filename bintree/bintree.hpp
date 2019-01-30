@@ -35,6 +35,7 @@ public:
     Binary_Tree();
 
     Node* insertdx(Node* , const value_type);
+    void create();
     Node* insertsx(Node* , const value_type);
     Node* sx(Node*) const;
     Node* dx(Node*) const;
@@ -47,6 +48,8 @@ public:
     Node* insert_root(const value_type);
     Node* get_root() const;
     void print(std::ostream&, Node*, int, std::string);
+    void remove(Node*);
+    
 
     template <class Z>
     friend std::ostream& operator<<(std::ostream&, Binary_Tree<Z>&);
@@ -54,7 +57,17 @@ public:
 private:
     Node* root;
     size_t size;
+
+    void _erase(Node*);
+
+    
 };
+
+template <class T>
+void Binary_Tree<T>::create(){
+    root = nullptr;
+    size = 0;
+}
 
 template <class T>
 void Binary_Tree<T>::write(Node* n, value_type value){
@@ -63,6 +76,32 @@ void Binary_Tree<T>::write(Node* n, value_type value){
     }else{
         throw "Nodo nullo";
     }
+}
+
+template <class T>
+void Binary_Tree<T>::_erase(Node* n){
+
+    if(n != nullptr){
+        _erase(n->left);
+        _erase(n->right);
+        
+        delete n;
+        size--;
+    }
+}
+
+template <class T>
+void Binary_Tree<T>::remove(Node* n){
+
+    if(n->parent != nullptr){
+        if(n->parent->left == n){
+            n->parent->left = nullptr;
+        }else{
+            n->parent->right = nullptr;
+        }
+    }
+
+    _erase(n);
 }
 
 template <class T>
@@ -133,8 +172,7 @@ void Binary_Tree<T>::print(std::ostream& os, Node* n, int count, std::string chr
 
 template <class T>
 Binary_Tree<T>::Binary_Tree(){
-    root = nullptr;
-    size = 0;
+    create();
 }
 
 template <class T>
