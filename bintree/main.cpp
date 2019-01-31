@@ -12,24 +12,29 @@ int main(){
     } 
     cout << "-----" << endl;
 
-    Binary_Tree<int> tree;
-    tree.insert_root(5);
-    BTNode<int>* node = tree.get_root();
+    Binary_Tree<string> tree;
+    tree.insert_root("mario");
+    BTNode<string>* node = tree.get_root();
     
-    auto b = tree.insertsx(node,6);
-    auto a = tree.insertdx(node,2);
-    auto c = tree.insertsx(a, 1);
-    auto d = tree.insertdx(a, 3);
-    auto e = tree.insertsx(b, 8);
-    auto f = tree.insertdx(b,9);
-    b = tree.insertsx(f,0);
-    a = tree.insertdx(f,7);
-    tree.insertdx(a,1);
-    tree.insertsx(a, 2);
-    auto h = tree.insertdx(b, 6);
-    tree.insertdx(h,1);
-    tree.insertsx(h,2);
-    tree.insertsx(b, 3);
+    BTNode<string>* b = tree.insertsx(node,"cciao");
+    auto a = tree.insertdx(node,"asddaa");
+    auto c = tree.insertsx(a, "bgsfdg");
+    auto d = tree.insertdx(a, "csgf");
+    auto e = tree.insertsx(b, "dsgf");
+    auto f = tree.insertdx(b,"esg");
+    b = tree.insertsx(f,"fsfg");
+    a = tree.insertdx(f,"gjjj");
+    tree.insertdx(a,"hasd");
+    tree.insertsx(a, "liul");
+    auto h = tree.insertdx(b, "mgkj");
+    tree.insertdx(h,"ngkjk");
+    tree.insertsx(h,"ogkj");
+    tree.insertsx(b, "pgk");
     cout << tree;
+    delete b;
+    cout << tree;
+    cout << b->value;
+
+
     return 0;
 }

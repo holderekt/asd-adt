@@ -33,6 +33,8 @@ public:
     typedef BTNode<T> Node;
 
     Binary_Tree();
+    ~Binary_Tree();
+    Binary_Tree(const Binary_Tree<T>&);
 
     Node* insertdx(Node* , const value_type);
     void create();
@@ -79,6 +81,11 @@ void Binary_Tree<T>::write(Node* n, value_type value){
 }
 
 template <class T>
+Binary_Tree<T>::~Binary_Tree(){
+    _erase(root);
+}
+
+template <class T>
 void Binary_Tree<T>::_erase(Node* n){
 
     if(n != nullptr){
@@ -93,15 +100,25 @@ void Binary_Tree<T>::_erase(Node* n){
 template <class T>
 void Binary_Tree<T>::remove(Node* n){
 
+    bool isRoot = false;
     if(n->parent != nullptr){
         if(n->parent->left == n){
             n->parent->left = nullptr;
         }else{
             n->parent->right = nullptr;
         }
+    }else{
+        if(n == root){
+            isRoot = true;
+        }
     }
 
     _erase(n);
+
+    if(isRoot){
+        create();
+    }
+    
 }
 
 template <class T>
