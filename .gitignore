@@ -28,3 +28,8 @@ bintree/.vscode/c_cpp_properties.json
 bintree/.vscode/launch.json
 bintree/.vscode/settings.json
 bintree/.vscode/tasks.json
+tree/.vscode/settings.json
+tree/main
+tree/.vscode/c_cpp_properties.json
+tree/.vscode/launch.json
+tree/.vscode/tasks.json
