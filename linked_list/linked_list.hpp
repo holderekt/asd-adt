@@ -201,8 +201,7 @@ std::ostream& operator<<(std::ostream& os, const Linked_list<T>& lista){
             os << ",";
     }
     os << "]\n";
-    return os
-    ;
+    return os;
 }
 
 template <class T>
