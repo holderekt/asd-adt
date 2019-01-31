@@ -47,7 +47,7 @@ public:
     void write(Node*, value_type); 
     Node* insert_root(const value_type);
     Node* get_root() const;
-    void print(std::ostream&, Node*, int, std::string);
+    void print(std::ostream&, Node*, int, std::string, std::string space);
     void remove(Node*);
     
 
@@ -141,13 +141,25 @@ typename Binary_Tree<T>::Node* Binary_Tree<T>::sx(Node* n) const{
 
 template <class T>
 std::ostream& operator<<(std::ostream& os, Binary_Tree<T>& tree){
-    tree.print(os, tree.get_root(), 0, " ");
+    tree.print(os, tree.get_root(), 0, "","");
     return os;
 }
 
+
 template <class T>
-void Binary_Tree<T>::print(std::ostream& os, Node* n, int count, std::string chr){
-    for(int i = 0; i<count; i++) os << " ";
+void Binary_Tree<T>::print(std::ostream& os, Node* n, int count, std::string chr, std::string space){
+
+    if(space.length() > 0){
+        if(space[space.size() - 1] != ' '){
+            os << space.substr(0, space.size() - 3);
+        }else{
+            os << space.substr(0, space.size() - 1);
+        }
+
+    }else{
+        os << space;
+    }
+   
     os << chr;
     os << n->value;
    
@@ -159,13 +171,17 @@ void Binary_Tree<T>::print(std::ostream& os, Node* n, int count, std::string chr
         }
         
         os << std::endl;
-        print(os,n->right,count+1,chr);
+        if(n->right != nullptr and n->left != nullptr and n->right->right != nullptr){
+            print(os,n->right,count+1,chr, space + "\u2502");
+        }else{
+            print(os,n->right,count+1,chr, space + " ");
+        }
     }
 
     if(n->left != nullptr){
         chr = "└";
         os << std::endl;
-        print(os,n->left,count+1, chr);
+        print(os,n->left,count+1, chr, space + " ");
     }  
 }
 
