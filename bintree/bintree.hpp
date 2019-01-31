@@ -51,25 +51,116 @@ public:
     Node* get_root() const;
     void print(std::ostream&, Node*, int, std::string, std::string space);
     void remove(Node*);
-    
+    size_t size() const;
+
+    void preOrder();
+    void postOrder();
+    void inOrder();
+
+    void traversalPreOrder(Node*);
+    void traversalPostOrder(Node*);
+    void traversalInOrder(Node*);
 
     template <class Z>
     friend std::ostream& operator<<(std::ostream&, Binary_Tree<Z>&);
+    void operator=(const Binary_Tree<T>&);
 
 private:
     Node* root;
-    size_t size;
+    size_t dsize;
 
     void _erase(Node*);
+    Node* _copy(Node*, Node*);
 
     
 };
 
+
+template<class T>
+void Binary_Tree<T>::preOrder(){
+    traversalPreOrder(root);
+}
+
+template <class T>
+void Binary_Tree<T>::traversalPreOrder(Node* node){
+    if(node != nullptr){
+        std::cout << node->value;
+        traversalPreOrder(node->left);
+        traversalPreOrder(node->right);
+    }
+}
+
+template<class T>
+void Binary_Tree<T>::inOrder(){
+    traversalInOrder(root);
+}
+
+template <class T>
+void Binary_Tree<T>::traversalInOrder(Node* node){
+    if(node != nullptr){
+        traversalInOrder(node->left);
+        std::cout << node->value;
+        traversalInOrder(node->right);
+    }
+}
+
+template<class T>
+void Binary_Tree<T>::postOrder(){
+    traversalPostOrder(root);
+}
+
+template <class T>
+void Binary_Tree<T>::traversalPostOrder(Node* node){
+    if(node != nullptr){
+        traversalPostOrder(node->left);
+        traversalPostOrder(node->right);
+        std::cout << node->value;
+    }
+}
+
+template<class T>
+size_t Binary_Tree<T>::size() const{
+    return this->dsize;
+}
+
+template <class T>
+Binary_Tree<T>::Binary_Tree(const Binary_Tree<T>& tree){
+    create();
+    root = _copy(nullptr, tree.get_root());
+
+}
+
+template <class T>
+typename Binary_Tree<T>::Node* Binary_Tree<T>::_copy(Node* parent_node, Node* node){
+
+    if(node != nullptr){
+        Node* new_node = new Node(node->value);
+        new_node->parent = parent_node;
+        new_node->left = _copy(new_node, node->left);
+        new_node->right = _copy(new_node, node->right);
+
+        dsize++;
+
+        return new_node;
+
+    }else{
+        return nullptr;
+    }
+}
+
 template <class T>
 void Binary_Tree<T>::create(){
     root = nullptr;
-    size = 0;
+    dsize = 0;
 }
+
+template <class T>
+void Binary_Tree<T>::operator=(const Binary_Tree<T>& tree){
+    _erase(root);
+    create();
+    root = _copy(nullptr, tree.get_root());
+}
+
 
 template <class T>
 void Binary_Tree<T>::write(Node* n, value_type value){
@@ -93,7 +184,7 @@ void Binary_Tree<T>::_erase(Node* n){
         _erase(n->right);
         
         delete n;
-        size--;
+        dsize--;
     }
 }
 
@@ -214,7 +305,7 @@ typename Binary_Tree<T>::Node* Binary_Tree<T>::insertdx(Node* n, value_type valu
         n->right = new Node(value);
         n->right->parent = n;
 
-        size++;
+        dsize++;
 
         return n->right;
     }else{
@@ -228,7 +319,7 @@ typename Binary_Tree<T>::Node* Binary_Tree<T>::insertsx(Node* n, value_type valu
         n->left = new Node(value);
         n->left->parent = n;
 
-        size++;
+        dsize++;
 
         return n->left;
     }else{
@@ -240,7 +331,7 @@ template <class T>
 typename Binary_Tree<T>::Node* Binary_Tree<T>::insert_root(const value_type value){
     if(root == nullptr){
         root = new Node(value);
-        size++;
+        dsize++;
 
         return root;
     }else{
