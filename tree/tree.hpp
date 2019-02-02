@@ -47,7 +47,7 @@ public:
 
     Tree();
     Tree(const Tree<T>&);
-    //~Tree();
+    ~Tree();
 
     void create();
     void insert_root(value_type value);
@@ -57,12 +57,43 @@ public:
     bool leaf(Node*) const;
     void remove(Node*);
 
+    size_t depth() const;
+    size_t distance(Node*) const;
+    void _print(std::ostream&, Node*);
+    Node* _copy(Node*, Node*);
+
+    Node* insert_first_subtree(Node*, Tree<T>&);
+    Node* insert_subtree(Node*, Tree<T>&);
+
+    template<class Z>
+    friend std::ostream& operator<<(std::ostream&, Tree<Z>&);
+    void operator=(const Tree<T>&);
+
 private:
     Node* root;
     size_t dsize;
 
     void _remove(Node*);
+   
+    size_t _depth(Node*) const;
 };
+
+template <class T>
+Tree<T>::Tree(const Tree<T>& tree){
+    root = this->_copy(tree.get_root(), nullptr);
+}
+
+template <class T>
+void Tree<T>::operator=(const Tree<T>& tree){
+    this->_remove(root);
+    root = this->_copy(tree.get_root(), nullptr);
+}
+
+
+template <class T>
+Tree<T>::~Tree(){
+    _remove(root);
+}
 
 template <class T>
 void Tree<T>::create(){
@@ -120,12 +151,9 @@ void Tree<T>::remove(Node* n){
         n->parent->childs.erase(nodo_t);
         _remove(n);
     }else{
-        std::cout << "test";
         _remove(n);
         root = nullptr;
-    }
-
-    
+    }   
 }
 
 template <class T>
@@ -139,4 +167,82 @@ void Tree<T>::_remove(Node* n){
         }
         delete n;
     }
+}
+
+template <class T>
+size_t Tree<T>::depth() const{
+    return _depth(root);
+}
+
+template <class T>
+size_t Tree<T>::_depth(Node* n) const{
+    int max = 0;
+    for(List_Node el = n->childs.begin(); !n->childs.end(el); el = n->childs.next(el)){
+        int new_max = _depth(n->childs.read(el));
+        if(new_max > max){
+            max = new_max;
+        }
+    }
+    return max+1;
+}
+
+template <class T>
+size_t Tree<T>::distance(Node* n) const{
+    size_t result = 0;
+    Node* test = n;
+    while(test->parent != nullptr){
+        test = test->parent;
+        result++;
+    }
+    return result;
+}
+
+
+template <class T>
+void Tree<T>::_print(std::ostream& os, Node* n){
+    os << "[";
+    os << n->value;
+    for(List_Node el = n->childs.begin(); !n->childs.end(el); el = n->childs.next(el)){
+        _print(os, n->childs.read(el));
+    }
+    os << "]";
+}
+
+
+template <class T>
+std::ostream& operator<<(std::ostream& os, Tree<T>& tree){
+    tree._print(os, tree.root);
+    return os;
+}
+
+
+template <class T>
+typename Tree<T>::Node* Tree<T>::_copy(Node* n, Node* parent){
+    if(n == nullptr)
+        return nullptr;
+
+    Node* new_node = new Node(n->value);
+    new_node->parent = parent;
+
+    for(List_Node el = n->childs.begin(); !n->childs.end(el); el = n->childs.next(el)){
+        new_node->childs.push_back(_copy(n->childs.read(el),n));
+    }
+
+    return new_node;
+}
+
+template <class T>
+typename Tree<T>::Node* Tree<T>::insert_first_subtree(Node* n, Tree<T>& tree){
+
+}
+
+template <class T>
+typename Tree<T>::Node* Tree<T>::insert_subtree(Node* n, Tree<T>& tree){
+    if(tree.get_root() == nullptr)
+        return nullptr;
+
+    Node* new_node = this->_copy(tree.get_root(), n->parent);
+    n->parent->childs.insert(new_node, n->parent->childs.find(n));
+
+    return new_node;
 }
