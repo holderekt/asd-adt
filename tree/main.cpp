@@ -49,7 +49,7 @@ int main(){
     newline();
     cout << luigi;
 
-    mario.insert_subtree(cac, mario);
+    mario.insert_first_subtree(cac, mario);
 
     newline();
     cout << mario;

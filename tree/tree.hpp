@@ -112,6 +112,7 @@ void Tree<T>::insert_root(value_type value){
     dsize++;
 }
 
+
 template <class T>
 typename Tree<T>::Node* Tree<T>::insert_child(Node* n, value_type value){
     if(n == nullptr)
@@ -233,8 +234,15 @@ typename Tree<T>::Node* Tree<T>::_copy(Node* n, Node* parent){
 
 template <class T>
 typename Tree<T>::Node* Tree<T>::insert_first_subtree(Node* n, Tree<T>& tree){
+    if(tree.get_root() == nullptr)
+        return nullptr;
 
+    Node* new_node = this->_copy(tree.get_root(), n);
+    n->childs.push_front(new_node);
+
+    return new_node;
 }
+
 
 template <class T>
 typename Tree<T>::Node* Tree<T>::insert_subtree(Node* n, Tree<T>& tree){

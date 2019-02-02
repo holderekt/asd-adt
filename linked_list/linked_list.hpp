@@ -46,6 +46,7 @@ public:
 
     // Other Operators
     void push_back(const value_type&);
+    void push_front(const value_type&);
     void clear();
     position find(const value_type&) const;
 
@@ -166,6 +167,20 @@ void Linked_list<T>::push_back(const value_type& value){
 
     _head->_prev->_next = newn;
     _head->_prev = newn;
+
+    ++_lenght;
+}
+
+template <class T>
+void Linked_list<T>::push_front(const value_type& value){
+
+    Node<T>* newn = new Node<T>;
+    newn->value = value;
+    newn->_prev = _head;
+    newn->_next = _head->_next;
+
+    _head->_next->_prev = newn;
+    _head->_next = newn;
 
     ++_lenght;
 }
