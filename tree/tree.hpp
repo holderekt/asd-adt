@@ -13,10 +13,12 @@ struct TNode{
     template<class Z>
     friend std::ostream& operator<<(std::ostream& os, const Linked_list<TNode<Z>*>& lista){
         os << "[";
-        for(typename Linked_list<TNode<Z>*>::position p = lista.begin(); !(lista.end(p)); p = lista.next(p)){
-            os << lista.read(p)->value;
-            if(lista.next(p) != lista.previous(lista.begin()))
-                os << ",";
+        if(!lista.empty()){
+            for(typename Linked_list<TNode<Z>*>::position p = lista.begin(); !(lista.end(p)); p = lista.next(p)){
+                os << lista.read(p)->value;
+                if(lista.next(p) != lista.previous(lista.begin()))
+                    os << ",";
+            }
         }
         os << "]\n";
         return os;
@@ -41,6 +43,7 @@ class Tree{
 public:
     typedef T value_type;
     typedef TNode<T> Node;
+    typedef typename Linked_list<TNode<T>*>::position List_Node;
 
     Tree();
     Tree(const Tree<T>&);
@@ -52,11 +55,13 @@ public:
     Node* get_root() const;
     Node* parent(Node*) const;
     bool leaf(Node*) const;
-
+    void remove(Node*);
 
 private:
     Node* root;
     size_t dsize;
+
+    void _remove(Node*);
 };
 
 template <class T>
@@ -105,3 +110,33 @@ bool Tree<T>::leaf(Node* n) const{
     return (n->childs.empty());
 }
 
+template <class T>
+void Tree<T>::remove(Node* n){
+    if(n == nullptr)
+        throw "Nodo nullo";
+
+    if(n->parent != nullptr){
+        List_Node nodo_t = n->parent->childs.find(n);
+        n->parent->childs.erase(nodo_t);
+        _remove(n);
+    }else{
+        std::cout << "test";
+        _remove(n);
+        root = nullptr;
+    }
+
+    
+}
+
+template <class T>
+void Tree<T>::_remove(Node* n){
+    if(n != nullptr){
+        if(!n->childs.empty()){
+            for(List_Node el = n->childs.begin(); !n->childs.end(el); el = n->childs.next(el)){
+                _remove(n->childs.read(el));
+                n->childs.erase(el);
+            }
+        }
+        delete n;
+    }
+}
