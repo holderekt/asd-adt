@@ -33,3 +33,7 @@ tree/main
 tree/.vscode/c_cpp_properties.json
 tree/.vscode/launch.json
 tree/.vscode/tasks.json
+priorityqueue/Makefile
+priorityqueue/.directory
+priorityqueue/.vscode/tasks.json
+tree/.directory
