@@ -37,3 +37,4 @@ priorityqueue/Makefile
 priorityqueue/.directory
 priorityqueue/.vscode/tasks.json
 tree/.directory
+priorityqueue/main
