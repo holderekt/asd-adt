@@ -56,7 +56,7 @@ void Priority_Queue<T>::insert(value_type value){
             curr = tree.dx(curr->parent);
         }
 
-        while(!tree.isEmpty_sx(curr) && !tree.isEmpty_dx(curr)){
+        while(!tree.leaf(curr)){
             curr = curr->left;
         }
 
@@ -80,11 +80,71 @@ void Priority_Queue<T>::_reorder(){
 
 template <class T>
 void Priority_Queue<T>::remove(){
+    value_type dlvalue = last->value;
+
     if(last == tree.get_root()){
         tree.remove(tree.get_root());
+        last = nullptr;
+
     }else if( tree.dx(last->parent) == last){
         Node* app = last;
         last = last->parent->left;
         tree.remove(app);
+   
+    }else{
+        Node* curr = last;
+
+        while((curr != tree.get_root()) && (tree.sx(curr->parent) == curr)){
+            curr = curr->parent;
+        }
+
+        if(curr == tree.get_root()){
+            curr = tree.dx(tree.get_root());
+        }else{
+            curr = tree.sx(curr->parent);
+        }
+
+        while(!tree.leaf(curr)){
+            curr = curr->right;
+        }
+        tree.remove(last);
+        last = curr;
     }
+
+    Node* n = tree.get_root();
+
+    while(!tree.leaf(n)){
+        if(n->left != nullptr and n->right != nullptr){
+            if( n->left->value < n->right->value){
+                // Sinistro
+                if(n->left->value < dlvalue){
+                    value_type app = n->left->value;
+                    n->left->value = n->value;
+                    n->value = app;
+                    n = n->left;
+                }
+            }else{
+                    // Destro
+                    if(n->right->value < dlvalue){
+                    value_type app = n->right->value;
+                    n->right->value = n->value;
+                    n->value = app;
+                    n = n->right;
+                }
+            }
+        }else{
+            if(n->left->value < dlvalue){
+                // Sinistro
+                            // Sinistro
+                if(n->left->value < dlvalue){
+                    value_type app = n->left->value;
+                    n->left->value = n->value;
+                    n->value = app;
+                    n = n->left;
+                }
+            }
+        }
+    }
+    n->value = dlvalue;
 }
+

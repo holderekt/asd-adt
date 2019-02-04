@@ -52,6 +52,7 @@ public:
     void print(std::ostream&, Node*, int, std::string, std::string space);
     void remove(Node*);
     size_t size() const;
+    bool leaf(Node*) const;
 
     void preOrder();
     void postOrder();
@@ -342,4 +343,9 @@ typename Binary_Tree<T>::Node* Binary_Tree<T>::insert_root(const value_type valu
 template <class T>
 typename Binary_Tree<T>::Node* Binary_Tree<T>::get_root() const{
     return root;
+}
+
+template <class T>
+bool Binary_Tree<T>::leaf(Node* n) const{
+    return (isEmpty_sx(n) and isEmpty_dx(n));
 }
