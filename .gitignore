@@ -38,3 +38,7 @@ priorityqueue/.directory
 priorityqueue/.vscode/tasks.json
 tree/.directory
 priorityqueue/main
+graph/.vscode/tasks.json
+bintree/.directory
+graph/.directory
+hash_table/.directory
