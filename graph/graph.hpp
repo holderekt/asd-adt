@@ -10,31 +10,58 @@
 template<class T, class W, class L>
 class Graph;
 
+template <class T, class W, class L>
+class GNode;
 
-template <class T, class W>
+/*
+    Node
+*/
+template <class T, class W, class L>
 class GEdge{
 public:
+    friend class GNode<T,W,L>;
 
 private:
-    T* first;
-    T* second;
+    GNode<T,W,L>* first;
+    GNode<T,W,L>* second;
     W weight;
 };
 
+/*
+    Edge
+*/
 template <class T, class W, class L>
 class GNode{
 public:
     friend class Graph<T,W,L>;
-    GNode(){};
-    GNode(T value,L label):value(value),label(label){};
+    friend class GEdge<T,W,L>;
+    GNode():length(0){};
+    GNode(T value,L label):value(value),label(label),length(0){};
+
+
+    // TODO REMOVE THIS SHIT
+    void print(){
+        std::cout << "[";
+        for(int i = 0; i!=length; i++){
+            std::cout << edges[i]->first->value << " -> " << edges->second->value;
+            if(i!=length){
+                std::cout << ",";
+            }
+        }
+        std::cout << "]";
+    }
+
 
 private:
     T value;
     L label;
-    GEdge<GNode<T,W,L>* ,W>* edges;
+    GEdge<T,W,L>* edges;
+    size_t length;
 };
 
-
+/*
+    Graph
+*/
 template <class T, class W, class L>
 class Graph{
 public:
@@ -42,9 +69,10 @@ public:
     typedef W weight;
     typedef L label;
     typedef GNode<T,W,L> Node;
-    typedef GEdge<Node*,W> Edge; 
+    typedef GEdge<T,W,L> Edge; 
 
     Graph(size_t);
+    Node* insert(value_type);
 
 private:
     Node* matrix;
@@ -61,4 +89,3 @@ Graph<T,W,L>::Graph(size_t dimension){
         matrix[i].edges = new Edge[dimension];
     }
 }
-
