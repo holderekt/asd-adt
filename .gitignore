@@ -25,7 +25,7 @@ hash_table/.vscode/settings.json
 hash_table/.vscode/tasks.json
 bintree/main
 bintree/.vscode/c_cpp_properties.json
-bintree/.vscode/launch.json
+bintree/.vscode/launch.jsonlinked_stack/.vscode/c_cpp_properties.json
 bintree/.vscode/settings.json
 bintree/.vscode/tasks.json
 tree/.vscode/settings.json
@@ -42,4 +42,5 @@ graph/.vscode/tasks.json
 bintree/.directory
 graph/.directory
 hash_table/.directory
+graph/main
 graph/main
