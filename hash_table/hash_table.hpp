@@ -9,8 +9,12 @@ using namespace std;
 template <class T>
 class Hash{
 public:
-    size_t operator()(const T) const;
+    size_t operator()(const T value) const{
+        return size_t(value);
+    }
 };
+
+
 
 struct KeyNotFoundError : public std::exception{
     const char * message() const throw(){
