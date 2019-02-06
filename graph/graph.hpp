@@ -153,13 +153,11 @@ std::ostream& operator<<(std::ostream& os, const Graph<T,W,L>& gph){
                     os << ")";
                 }
             }
-
             os << "]";
             count ++;
 
             if(count < gph.length){
-                os << ",\n";
-                
+                os << ",\n";   
             }
         }
     }
