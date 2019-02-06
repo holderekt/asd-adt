@@ -19,11 +19,15 @@ class GNode;
 template <class T, class W, class L>
 class GEdge{
 public:
-    friend class GNode<T,W,L>;
     friend class Graph<T,W,L>;
+
+    GEdge():empty(true){}
+
     bool isEmpty() const{ return empty; }
-    GNode<T,W,L>* getFirst(){return first;}
-    GNode<T,W,L>* getSecond(){return second;}
+    W getWeight() const{ return weight;}
+    GNode<T,W,L>* getFirst() const{return first;}
+    GNode<T,W,L>* getSecond() const{return second;}
+
     void setData(GNode<T,W,L>* first, GNode<T,W,L>* second, W weight){
         this->first = first;
         this->second = second;
@@ -49,10 +53,11 @@ public:
 
     GNode():empty(true){};
 
-    GNode(T value,L label):value(value),label(label),length(0){};
-    T getValue(){return value;}
-    size_t getId(){return id;}
-    bool isEmpty() const{return empty;};
+    T getValue() const{return value;}
+    size_t getId() const{return id;}
+    bool isEmpty() const{return empty;}
+    L getLabel() const{ return label;}
+
     void setData(T value,L label, size_t id){
         this->value = value;
         this->label = label;
@@ -65,8 +70,6 @@ public:
 private:
     T value;
     L label;
-    
-    size_t length;
     bool empty;
     size_t id;
 };
@@ -139,20 +142,17 @@ std::ostream& operator<<(std::ostream& os, const Graph<T,W,L>& gph){
     os << "[\n";
     for(int i =0, count = 0; i != gph.size; i++){
         if(!(gph.matrix[i].isEmpty())){
-            os << gph.matrix[i].getValue() << ":[";
+            os << "("<< gph.matrix[i].getLabel() <<")\t" << gph.matrix[i].getValue() << ":[";
 
             for(int j = 0; j!= gph.size; j++){
                 if(!(gph.matrix[i].edges[j].isEmpty())){
                     os << "(";
                     os << gph.matrix[i].edges[j].getFirst()->getValue();
-                    os << " -> ";
-                    os << gph.matrix[i].edges[j].getSecond()->getValue();
-
+                    os << " {" << gph.matrix[i].edges[j].getWeight() << "}" << "-> ";
+                    os << gph.matrix[i].edges[j].getSecond()->getValue();   
                     os << ")";
                 }
-
             }
-
 
             os << "]";
             count ++;
