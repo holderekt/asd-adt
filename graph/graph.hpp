@@ -28,6 +28,9 @@ public:
     GNode<T,W,L>* getFirst() const{return first;}
     GNode<T,W,L>* getSecond() const{return second;}
 
+    void setWeight(W weight){ this->weight = weight;}
+    void setEmpty(bool value){ this->empty = value;}
+
     void setData(GNode<T,W,L>* first, GNode<T,W,L>* second, W weight){
         this->first = first;
         this->second = second;
@@ -57,6 +60,11 @@ public:
     size_t getId() const{return id;}
     bool isEmpty() const{return empty;}
     L getLabel() const{ return label;}
+    
+    void setLabel(L label){this->label = label;}
+    void setWeight(W weight){this->weight = weight;}
+    void setValue(T value){this->value = value;}
+    void setEmpty(bool value){this->empty = value;}
 
     void setData(T value,L label, size_t id){
         this->value = value;
@@ -90,8 +98,11 @@ public:
     typedef GEdge<T,W,L> Edge; 
 
     Graph(size_t);
+
     Node* insert_node(value_type,label);
     void insert_edge(Node*, Node*, weight);
+    void remove_node(Node*);
+    void remove_edge(Node*, Node*);
 
     template <class _T, class _W, class _L>
     friend std::ostream& operator<<(std::ostream&, const Graph<_T,_W,_L>&);
@@ -172,5 +183,43 @@ void Graph<T,W,L>::insert_edge(Node* n1, Node* n2, weight w){
     }else{
         throw "Index out of bound";
     }
+}
 
+template <class T, class W, class L>
+void Graph<T,W,L>::remove_node(Node* n){
+    if(n == nullptr){
+        throw "Nodo nullo";
+    }else if( n->getId() <0 || n->getId() >= size){
+        throw "Index out of bound";
+    }else if(n->isEmpty()){
+        throw "Node not found";
+    }
+
+    for(int i=0; i!=size; i++){
+        if(i != n->getId()){
+            if(!matrix[i].edges[n->getId()].isEmpty()){
+                matrix[i].edges[n->getId()].empty = true;                
+            }
+        }
+    }
+
+    matrix[n->getId()].empty = true;
+    length--;
+}
+
+template <class T, class W, class L>
+void Graph<T,W,L>::remove_edge(Node* n1, Node* n2){
+    if(n1 == nullptr && n2 != nullptr){
+        throw "Nodo nullo";
+    }else if(n1->getId() <0 || n1->getId() >= size || n2->getId() <0 || n2->getId() >= size){
+        throw "Index out of bound";
+    }else if(n1->isEmpty() || n2->isEmpty()){
+        throw "Node not found";
+    }
+    
+    if(!matrix[n1->getId()].edges[n2->getId()].isEmpty()){
+        matrix[n1->getId()].edges[n2->getId()].empty = true;
+    }else{
+        throw "Edge not found";
+    }
 }

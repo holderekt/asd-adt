@@ -17,7 +17,9 @@ int main(){
     grafo.insert_edge(a,b, 10);
     grafo.insert_edge(a,g, 4);
     grafo.insert_edge(b,a, 10);
-
+    grafo.remove_edge(a,b);
+    grafo.remove_edge(b,a);
+  
     cout << grafo;
 
 
