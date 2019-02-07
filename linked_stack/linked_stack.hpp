@@ -7,12 +7,12 @@ template <class T>
 class Stack;
 
 template <class T>
-class Node{
+class SNode{
 public:
     friend class Stack<T>;
 private:
     typename Stack<T>::value_type _value;
-    Node<T>* _prev;
+    SNode<T>* _prev;
 };
 
 template <class T>
@@ -34,7 +34,7 @@ public:
 
     // Temporary
     void print(){
-        Node<T>* temp = _head;
+        SNode<T>* temp = _head;
         while(temp != nullptr){
             std::cout << temp->_value << " ";
             temp = temp->_prev;
@@ -42,7 +42,7 @@ public:
     }
 
 private:
-    Node<T>* _head;
+    SNode<T>* _head;
     int _lenght;
 };
 
@@ -55,16 +55,16 @@ template <class T>
 Stack<T>::Stack(const Stack<T>& stk){
     create();
 
-    this->_head = new Node<T>;
+    this->_head = new SNode<T>;
     this->_head->_value = stk._head->_value;
-    Node<T>* prev_node = _head;
+    SNode<T>* prev_node = _head;
 
 
-    Node<T>* cp_node = stk._head->_prev;
+    SNode<T>* cp_node = stk._head->_prev;
 
 
     while(cp_node != nullptr){
-        Node<T>* new_node = new Node<T>;
+        SNode<T>* new_node = new SNode<T>;
 
         new_node->_value = cp_node->_value;
         new_node->_prev = nullptr;
@@ -102,7 +102,7 @@ typename Stack<T>::value_type Stack<T>::read() const{
 template <class T>
 void Stack<T>::pop(){
     if(!empty()){
-        Node<T>* old_head = _head;
+        SNode<T>* old_head = _head;
         _head = _head->_prev;
         delete old_head;
     }
@@ -110,7 +110,7 @@ void Stack<T>::pop(){
 
 template <class T>
 void Stack<T>::push(value_type value){
-    Node<T>* new_head = new Node<T>;
+    SNode<T>* new_head = new SNode<T>;
     new_head->_value = value;
     new_head->_prev = _head;
     _head = new_head;

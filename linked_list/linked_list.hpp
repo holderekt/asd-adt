@@ -12,19 +12,19 @@ template <class T>
 class Linked_list;
 
 template <class T>
-class Node{
+class LNode{
     friend class Linked_list<T>;
 private:
     T value;
-    Node<T>* _next;
-    Node<T>* _prev;
+    LNode<T>* _next;
+    LNode<T>* _prev;
 };
 
 template <class T>
-class Linked_list : public Linear_list<T, Node<T>*>{
+class Linked_list : public Linear_list<T, LNode<T>*>{
 public:
-    typedef typename Linear_list<T, Node<T>*>::value_type value_type;
-    typedef typename Linear_list<T, Node<T>*>::position position;
+    typedef typename Linear_list<T, LNode<T>*>::value_type value_type;
+    typedef typename Linear_list<T, LNode<T>*>::position position;
 
     //Constructors and destructors
     Linked_list();
@@ -58,7 +58,7 @@ public:
     friend std::ostream& operator<<(std::ostream&, const Linked_list<Z>&);
     
 private:
-    Node<T>* _head;
+    LNode<T>* _head;
     int _lenght;
 };
 
@@ -85,7 +85,7 @@ Linked_list<T>::Linked_list(const Linked_list<T>& lista){
 
 template <class T>
 void Linked_list<T>::create(){
-    _head = new Node<T>;
+    _head = new LNode<T>;
     _head->_next = _head;
     _head->_prev = _head;
     _lenght = 0;
@@ -134,7 +134,7 @@ typename Linked_list<T>::position Linked_list<T>::previous(position pos) const{
 template <class T>
 void Linked_list<T>::insert(const value_type& value, position pos){
     
-    Node<T>* newn = new Node<T>;
+    LNode<T>* newn = new LNode<T>;
 
     newn->value = value;
     newn->_next = pos->_next;
@@ -160,7 +160,7 @@ void Linked_list<T>::erase(position pos){
 template <class T>
 void Linked_list<T>::push_back(const value_type& value){
 
-    Node<T>* newn = new Node<T>;
+    LNode<T>* newn = new LNode<T>;
     newn->value = value;
     newn->_prev = _head->_prev;
     newn->_next = _head;
@@ -174,7 +174,7 @@ void Linked_list<T>::push_back(const value_type& value){
 template <class T>
 void Linked_list<T>::push_front(const value_type& value){
 
-    Node<T>* newn = new Node<T>;
+    LNode<T>* newn = new LNode<T>;
     newn->value = value;
     newn->_prev = _head;
     newn->_next = _head->_next;

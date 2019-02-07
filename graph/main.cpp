@@ -15,12 +15,14 @@ int main(){
     auto b = grafo.insert_node(4,"mario");
     auto g = grafo.insert_node(5,"cass");
     grafo.insert_edge(a,b, 10);
-    grafo.insert_edge(a,g, 4);
-    grafo.insert_edge(b,a, 10);
-    grafo.remove_edge(a,b);
-    grafo.remove_edge(b,a);
-  
+    grafo.insert_edge(b,g, 4);
+    
+
+    cout << grafo.adjacent(a);
+    std::cout << std::endl;
     cout << grafo;
+
+    grafo.DFS(a);
 
 
     

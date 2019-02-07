@@ -4,11 +4,15 @@
 #include <string>
 #include "graph.hpp"
 #include "../hash_table/hash_table.hpp"
+#include "../queue/queue.hpp"
+#include "../linked_stack/linked_stack.hpp"
 #include "../linked_list/linked_list.hpp"
 #include "../priorityqueue/priority_queue.hpp"
 
+
 template<class T, class W, class L>
 class Graph;
+
 
 template <class T, class W, class L>
 class GNode;
@@ -80,6 +84,7 @@ private:
     L label;
     bool empty;
     size_t id;
+    
 };
 
 /*
@@ -88,8 +93,6 @@ private:
 template <class T, class W, class L>
 class Graph{
 public:
-    friend class GNode<T,W,L>;
-    friend class GEdge<T,W,L>;
 
     typedef T value_type;
     typedef W weight;
@@ -103,6 +106,13 @@ public:
     void insert_edge(Node*, Node*, weight);
     void remove_node(Node*);
     void remove_edge(Node*, Node*);
+
+    bool existsEdge(Node*, Node*);
+    Linked_list<Node*> adjacent(Node*) const;
+
+    void BFS() const;
+    void DFS(Node*) const;
+
 
     template <class _T, class _W, class _L>
     friend std::ostream& operator<<(std::ostream&, const Graph<_T,_W,_L>&);
@@ -217,9 +227,69 @@ void Graph<T,W,L>::remove_edge(Node* n1, Node* n2){
         throw "Node not found";
     }
     
-    if(!matrix[n1->getId()].edges[n2->getId()].isEmpty()){
+    if(existsEdge(n1,n2)){
         matrix[n1->getId()].edges[n2->getId()].empty = true;
     }else{
         throw "Edge not found";
     }
+}
+
+template <class T, class W, class L>
+bool Graph<T,W,L>::existsEdge(Node* n1, Node* n2){
+    return !n1->edges[n2->getId].isEmpty();
+}
+
+template <class T, class W, class L>
+Linked_list<typename Graph<T,W,L>::Node*> Graph<T,W,L>::adjacent(Node* n) const{
+    if(n == nullptr){
+        throw "Null node";
+    }
+    Linked_list<Node*> list;
+    for(int i = 0; i!=size; i++){
+        if(!n->edges[i].isEmpty()){
+            list.push_back(n->edges[i].second);
+        }
+    }
+
+    return list;
+}
+
+template <class T, class W, class L>
+void Graph<T,W,L>::BFS() const{
+
+
+}
+
+template <class T, class W, class L>
+void Graph<T,W,L>::DFS(Node* n) const{
+    Linked_list<Node*> visited;
+    Stack<Node*> stk;
+
+
+    visited.push_back(n);
+    std::cout << n->getValue() <<std::endl;
+    stk.push(n);
+
+    while(!stk.empty()){
+        Node* temp = stk.read();
+        stk.pop();
+
+        Linked_list<Node*> adj = this->adjacent(temp);
+        LNode<Node*>* i = adj.begin();
+
+        while(!adj.end(i)){
+            if(visited.find(adj.read(i)) == nullptr){
+                visited.push_back(adj.read(i));
+                stk.push(adj.read(i));
+            }
+
+            i = adj.next(i);
+        }
+    }
+
+    for(auto i = visited.begin(); !visited.end(i); i = visited.next(i)){
+        std::cout << visited.read(i)->getValue() << " ";
+    }
+    
+
 }
