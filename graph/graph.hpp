@@ -110,7 +110,7 @@ public:
     bool existsEdge(Node*, Node*);
     Linked_list<Node*> adjacent(Node*) const;
 
-    void BFS() const;
+    void BFS(Node*) const;
     void DFS(Node*) const;
 
 
@@ -255,24 +255,16 @@ Linked_list<typename Graph<T,W,L>::Node*> Graph<T,W,L>::adjacent(Node* n) const{
 }
 
 template <class T, class W, class L>
-void Graph<T,W,L>::BFS() const{
-
-
-}
-
-template <class T, class W, class L>
-void Graph<T,W,L>::DFS(Node* n) const{
+void Graph<T,W,L>::BFS(Node* n) const{
     Linked_list<Node*> visited;
-    Stack<Node*> stk;
-
+    Queue<Node*> que;
 
     visited.push_back(n);
-    std::cout << n->getValue() <<std::endl;
-    stk.push(n);
+    que.push(n);
 
-    while(!stk.empty()){
-        Node* temp = stk.read();
-        stk.pop();
+    while(!que.empty()){
+        Node* temp = que.read();
+        que.pop();
 
         Linked_list<Node*> adj = this->adjacent(temp);
         LNode<Node*>* i = adj.begin();
@@ -280,7 +272,7 @@ void Graph<T,W,L>::DFS(Node* n) const{
         while(!adj.end(i)){
             if(visited.find(adj.read(i)) == nullptr){
                 visited.push_back(adj.read(i));
-                stk.push(adj.read(i));
+                que.push(adj.read(i));
             }
 
             i = adj.next(i);
@@ -290,6 +282,40 @@ void Graph<T,W,L>::DFS(Node* n) const{
     for(auto i = visited.begin(); !visited.end(i); i = visited.next(i)){
         std::cout << visited.read(i)->getValue() << " ";
     }
-    
+}
 
+template <class T, class W, class L>
+void Graph<T,W,L>::DFS(Node* n) const{
+    Linked_list<Node*> visited;
+    Stack<Node*> stk;
+
+    visited.push_back(n);
+    stk.push(n);
+
+    while(!stk.empty()){
+        Node* temp = stk.read();
+        
+
+        Linked_list<Node*> adj = this->adjacent(temp);
+        LNode<Node*>* i = adj.begin();
+        bool found = false;
+
+        while(!adj.end(i) && !found){
+            if(visited.find(adj.read(i)) == nullptr){
+                found = true;
+                visited.push_back(adj.read(i));
+                stk.push(adj.read(i));
+            }
+
+            i = adj.next(i);
+        }
+
+        if(found == false){
+            stk.pop();
+        }
+    }
+
+    for(auto i = visited.begin(); !visited.end(i); i = visited.next(i)){
+        std::cout << visited.read(i)->getValue() << " ";
+    }
 }
