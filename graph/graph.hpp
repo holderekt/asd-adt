@@ -13,9 +13,9 @@
 template<class T, class W, class L>
 class Graph;
 
-
 template <class T, class W, class L>
 class GNode;
+
 
 /*
     Node
@@ -87,6 +87,15 @@ private:
     
 };
 
+
+template<>
+class Hash<GNode<int,int,std::string>*>{
+public:
+    size_t operator()(GNode<int,int,std::string>* key) const{
+        return size_t(key) << 5;
+    }
+};
+
 /*
     Graph
 */
@@ -109,7 +118,10 @@ public:
 
     bool existsEdge(Node*, Node*) const;
     Linked_list<Node*> adjacent(Node*) const;
+
     bool existsPath(Node*, Node*) const;
+    Linked_list<Node*> findShortestPath(Node*, Node*) const;
+    Linked_list<Node*> getNodes() const { return this->nodes; };
 
     Linked_list<Node*> BFS(Node*) const;
     Linked_list<Node*> DFS(Node*) const;
@@ -118,11 +130,13 @@ public:
     template <class _T, class _W, class _L>
     friend std::ostream& operator<<(std::ostream&, const Graph<_T,_W,_L>&);
 
+
+
+private:
     Node* matrix;
     size_t length;
     size_t size;
-
-private:
+    Linked_list<Node*> nodes;
 
 };
 
@@ -150,6 +164,7 @@ typename Graph<T,W,L>::Node* Graph<T,W,L>::insert_node(value_type value, label l
         }
 
         ++length;
+        nodes.push_back(&matrix[i]);
         return &matrix[i];
     }
     return nullptr;
@@ -214,6 +229,7 @@ void Graph<T,W,L>::remove_node(Node* n){
         }
     }
 
+    nodes.erase(nodes.find(n));
     matrix[n->getId()].empty = true;
     length--;
 }
@@ -321,4 +337,23 @@ template <class T, class W, class L>
 bool Graph<T,W,L>::existsPath(Node* start, Node* end) const{
     Linked_list<Node*> dfsresult = DFS(start);
     return (dfsresult.find(end) != nullptr);
+}
+
+template <class T, class W, class L>
+Linked_list<typename Graph<T,W,L>::Node*> Graph<T,W,L>::findShortestPath(Node* start, Node* end) const{
+    if(!existsPath(start, end))
+        throw "Help";
+    
+    Hash_Table<Node*, size_t> elements(length);
+    Linked_list<Node*> nodes = getNodes();
+
+    for(auto i = nodes.begin(); !nodes.end(i); i = nodes.next(i)){
+        elements.insert({nodes.read(i), 0});
+    }
+
+    std::cout << elements;
+    elements[nodes.read(nodes.begin())] = 2;
+    std::cout << std::endl;
+    std::cout << elements;
+    
 }

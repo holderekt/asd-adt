@@ -74,14 +74,15 @@ public:
     bool empty() const;
     size_t size() const;
     bool insert(const DPair<K,E>&);
+    bool insert(K,E);
     void erase(const key&);
     void resize();
 
     // Overload operands
     template<class KK, class EE>
     friend std::ostream& operator<<(std::ostream&, Hash_Table<KK,EE>&);
-    int operator[](const key&) const;
-    int& operator[](const key&); 
+    value operator[](const key&) const;
+    value& operator[](const key&); 
 
 
 private:
@@ -166,6 +167,12 @@ size_t Hash_Table<K,E>::search(const key& key) const{
 }
 
 template<class K, class E>
+bool Hash_Table<K,E>::insert(K key, E element){
+    DPair<K,E> pair(key, element);
+    return insert(pair);
+}
+
+template<class K, class E>
 bool Hash_Table<K,E>::insert(const DPair<K,E>& pair){
     size_t pos = search(pair.key);
 
@@ -184,7 +191,7 @@ bool Hash_Table<K,E>::insert(const DPair<K,E>& pair){
 
 
 template <class K, class E>
-int& Hash_Table<K,E>::operator[](const key& key){
+typename Hash_Table<K,E>::value& Hash_Table<K,E>::operator[](const key& key){
     size_t pos = search(key);
 
     if(table[pos] == nullptr || table[pos]->key != key){
@@ -196,7 +203,7 @@ int& Hash_Table<K,E>::operator[](const key& key){
 }
 
 template <class K, class E>
-int Hash_Table<K,E>::operator[](const key& key) const{
+typename Hash_Table<K,E>::value Hash_Table<K,E>::operator[](const key& key) const{
     size_t pos = search(key);
 
     if(table[pos] == nullptr || table[pos]->key != key){
