@@ -116,6 +116,9 @@ void Priority_Queue<T,P>::_reorder(){
 
 template <class T, class P>
 void Priority_Queue<T,P>::remove(){
+
+    std::cout<< "nuova passata " << std::endl;
+    
     
     PNode<T,P> dlvalue = last->value;
 
@@ -127,7 +130,11 @@ void Priority_Queue<T,P>::remove(){
         Node* app = last;
         last = last->parent->left;
         tree.remove(app);
-   
+    
+    }else if (tree.get_root()->left == last){
+        tree.remove(last);
+        last = tree.get_root();
+
     }else{
         Node* curr = last;
 
@@ -154,45 +161,52 @@ void Priority_Queue<T,P>::remove(){
     */
 
    std::cout << std::endl;
-std::cout << dlvalue << std::endl;
-std::cout << std::endl;
-
+   std::cout<< dlvalue << std::endl;
+   std::cout << std::endl;
+   
+   
 
     Node* start = tree.get_root();
+    bool flag = true;
     
-    while(start != nullptr and !tree.leaf(start)){
+    while(start != nullptr and !tree.leaf(start) && flag){
 
-        priority_value psx = 0;
-        priority_value pdx = 0;
-
-        if(tree.sx(start) != nullptr){
-            psx = tree.sx(start)->value.priority;
-        }
-
-        if(tree.dx(start) != nullptr){
-            pdx = tree.dx(start)->value.priority;
-        }
-
-        if(psx < pdx){
-            if(psx < dlvalue.priority){
-                start->value = start->left->value;
-                start = start->left;
+        if(start->right != nullptr && start->left != nullptr){
+            if(start->right->value.priority > start->left->value.priority){
+                if(start->left->value.priority < dlvalue.priority){
+                    start->value = start->left->value;
+                    start = start->left;
+                }else{
+                    flag = false;
+                }
+            }else{
+                if(start->right->value.priority < dlvalue.priority){
+                    start->value = start->right->value;
+                    start = start->right;
+                }else{
+                    flag = false;
+                }
             }
-        }else{
-            if(pdx < dlvalue.priority){
-                start->value = start->left->value;
-                start = start->right;
-            }
+        }else if(start->left != nullptr){
+                if(start->left->value.priority < dlvalue.priority){
+                    start->value = start->left->value;
+                    start = start->left;
+                }else{
+                    flag = false;
+                }
+        }else if(start->right != nullptr){
+                if(start->right->value.priority < dlvalue.priority){
+                    start->value = start->right->value;
+                    start = start->right;
+                }else{
+                    flag = false;
+                }
         }
 
         print();
+        std::cout << std::endl;
         int mario;
         std::cin >> mario;
-        std::cout << std::endl;
-        std::cout << std::endl;
-        std::cout << std::endl;
-        
-
     }
 
     if(start != nullptr)

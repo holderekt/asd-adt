@@ -12,7 +12,7 @@ int main(){
 
     Priority_Queue<int,int> que;
  
- 
+  
 
     que.insert(1,1);
     que.insert(2,2);
@@ -24,12 +24,22 @@ int main(){
     que.print();
     
     que.remove();
+    que.print();
     que.remove();
+    que.print();
+
     que.remove();
+    que.print();
+
     que.remove();
+    que.print();
+
     que.remove();
+    que.print();
+
     que.remove();
-    
+    que.print();
+
     std::cout << std::endl;
     
 
