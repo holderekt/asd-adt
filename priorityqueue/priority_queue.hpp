@@ -20,6 +20,11 @@ struct PNode{
     PNode(){};
     PNode(T value, P priority):value(value), priority(priority){}
 
+    void operator=(const PNode<T,P>& nodo){
+        this->value = nodo.value;
+        this->priority = nodo.priority;
+    }
+
     T value;
     P priority;
 };
@@ -35,6 +40,9 @@ public:
     Priority_Queue();
     void insert(value_type, priority_value);
     void remove();
+    PNode<T,P> read()const {return tree.get_root()->value; };
+    bool empty(){return tree.isEmpty(); }
+    void swap(PNode<T,P> &n1, PNode<T,P> &n2);
 
     void print(){
         std::cout << tree << std::endl;
@@ -140,54 +148,64 @@ void Priority_Queue<T,P>::remove(){
         last = curr;
     }
 
-    Node* n = tree.get_root();
 
-    while(!tree.leaf(n)){
-        if(n->left != nullptr and n->right != nullptr){
-            if( n->left->value.priority < n->right->value.priority){
-                //Sinistro
-                if(n->left->value.priority < dlvalue.priority){
-                    PNode<T,P> app;
-                    app.value = n->left->value.value;
-                    app.priority = n->left->value.priority;
+    /*
+        Aggiustamento
+    */
 
-                    n->left->value.value = n->value.value;
-                    n->left->value.priority = n->value.priority;
-                    n->value.value = app.value;
-                    n->value.priority = app.priority;
-                    n = n->left;
-                }
-            }else{
-                    //Destro
-                    PNode<T,P> app;
-                    app.value = n->right->value.value;
-                    app.priority = n->right->value.priority;
+   std::cout << std::endl;
+std::cout << dlvalue << std::endl;
+std::cout << std::endl;
 
-                    n->right->value.value = n->value.value;
-                    n->right->value.priority = n->value.priority;
-                    n->value.value = app.value;
-                    n->value.priority = app.priority;
-                    n = n->right;
-                }
+
+    Node* start = tree.get_root();
+    
+    while(start != nullptr and !tree.leaf(start)){
+
+        priority_value psx = 0;
+        priority_value pdx = 0;
+
+        if(tree.sx(start) != nullptr){
+            psx = tree.sx(start)->value.priority;
+        }
+
+        if(tree.dx(start) != nullptr){
+            pdx = tree.dx(start)->value.priority;
+        }
+
+        if(psx < pdx){
+            if(psx < dlvalue.priority){
+                start->value = start->left->value;
+                start = start->left;
+            }
         }else{
-            if(n->left->value.priority < dlvalue.priority){
-                //Sinistro
-                  //          Sinistro
-         
-                    PNode<T,P> app;
-                    app.value = n->left->value.value;
-                    app.priority = n->left->value.priority;
-
-                    n->left->value.value = n->value.value;
-                    n->left->value.priority = n->value.priority;
-                    n->value.value = app.value;
-                    n->value.priority = app.priority;
-                    n = n->left;
-                
+            if(pdx < dlvalue.priority){
+                start->value = start->left->value;
+                start = start->right;
             }
         }
+
+        print();
+        int mario;
+        std::cin >> mario;
+        std::cout << std::endl;
+        std::cout << std::endl;
+        std::cout << std::endl;
+        
+
     }
-    n->value.priority = dlvalue.priority;
-    n->value.value = dlvalue.value;
+
+    if(start != nullptr)
+        start->value = dlvalue;
 }
+
+template <class T,class P>
+void Priority_Queue<T,P>::swap(PNode<T,P> &n1, PNode<T,P> &n2){
+    PNode<T,P> app;
+    app = n1;
+    n1 = n2;
+    n2 = n1;
+}
+
+
 

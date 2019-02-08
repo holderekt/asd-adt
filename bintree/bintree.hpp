@@ -250,7 +250,9 @@ typename Binary_Tree<T>::Node* Binary_Tree<T>::sx(Node* n) const{
 
 template <class T>
 std::ostream& operator<<(std::ostream& os, Binary_Tree<T>& tree){
-    tree.print(os, tree.get_root(), 0, "","");
+    if(tree.get_root() != nullptr){
+        tree.print(os, tree.get_root(), 0, "","");
+    }
     return os;
 }
 

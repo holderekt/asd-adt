@@ -340,19 +340,66 @@ bool Graph<T,W,L>::existsPath(Node* start, Node* end) const{
     return (dfsresult.find(end) != nullptr);
 }
 
+/*
+Dijkstra ti prego muori
+*/
 template <class T, class W, class L>
 Linked_list<typename Graph<T,W,L>::Node*> Graph<T,W,L>::findShortestPath(Node* start, Node* end) const{
+
     if(!existsPath(start, end))
         throw "Help";
     
     Hash_Table<Node*, size_t> elements(length);
+    Hash_Table<Node*, Node*> priors(length);
     Linked_list<Node*> nodes = getNodes();
+    Priority_Queue<Node*, size_t> border;
 
     for(auto i = nodes.begin(); !nodes.end(i); i = nodes.next(i)){
         elements.insert({nodes.read(i), INT_MAX});
+        priors.insert({nodes.read(i), nullptr});
     }
-    
-    
-    
-    
+
+    elements[start] = 0;
+    border.insert(start, 0);
+
+
+    while(true){
+
+        std::cout<< "Inizio!" << std::endl;
+        Node* point = border.read().value;
+        std::cout<< "Punto: " << point->getValue() << std::endl;
+        border.remove();
+        std::cout << std::endl;
+        border.print();
+        std::cout << std::endl;
+        
+      
+
+        Linked_list<Node*> point_adjacent = adjacent(point);
+
+        // Per ogni nodo adiacente a point
+        for(auto a = point_adjacent.begin(); !point_adjacent.end(a); a = point_adjacent.next(a)){
+            
+            Node* point_adj = point_adjacent.read(a);
+            weight a_weight = point->edges[point_adj->getId()].getWeight();
+        
+            if(elements[point_adj] > (a_weight + elements[point])){
+                elements[point_adj] = a_weight + elements[point];
+                priors[point_adj] = point; 
+            }
+        
+            border.insert(point_adj, a_weight + elements[point]);
+        } 
+
+        std::cout << "fif" << std::endl;
+        std::cout << elements << std::endl; 
+        std::cout << "fof" << std::endl;
+        border.print();
+        std::cout << std::endl;
+        int aiuto;
+        std::cin >> aiuto;
+        
+
+    }
 }
+

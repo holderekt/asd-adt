@@ -77,6 +77,7 @@ public:
     bool insert(K,E);
     void erase(const key&);
     void resize();
+    size_t getDivisor() const {return this->divisor; }
 
     // Overload operands
     template<class KK, class EE>
@@ -84,9 +85,9 @@ public:
     value operator[](const key&) const;
     value& operator[](const key&); 
 
-
-private:
     DPair<K,E> **table;
+private:
+    
     Hash<K> fhash;
     size_t dsize;
     size_t divisor;
