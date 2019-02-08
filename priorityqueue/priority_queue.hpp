@@ -3,15 +3,37 @@
 #include <iostream>
 #include "../bintree/bintree.hpp"
 
-template <class T>
+template <class T, class P>
+class Priority_Queue;
+
+
+template <class T, class P>
+struct PNode{
+    friend class Priority_Queue<T,P>;
+
+    template <class TT, class PP>
+    friend std::ostream& operator<<(std::ostream& os, PNode<TT,PP> n){
+        os << n.value << " : " << n.priority;
+        return os;
+    }
+
+    PNode(){};
+    PNode(T value, P priority):value(value), priority(priority){}
+
+    T value;
+    P priority;
+};
+
+template <class T, class P>
 class Priority_Queue{
 public:
-   
-    typedef typename Binary_Tree<T>::Node Node;
-    typedef typename Binary_Tree<T>::value_type value_type;
+    
+    typedef typename Binary_Tree<PNode<T,P>>::Node Node;
+    typedef T value_type;
+    typedef P priority_value;
 
     Priority_Queue();
-    void insert(value_type value);
+    void insert(value_type, priority_value);
     void remove();
 
     void print(){
@@ -19,29 +41,31 @@ public:
     }
 
 private:
-    Binary_Tree<T> tree;
+    Binary_Tree<PNode<T,P>> tree;
     Node* last;
 
     void _reorder();
 };
 
-template <class T>
-Priority_Queue<T>::Priority_Queue(){
+template <class T, class P>
+Priority_Queue<T,P>::Priority_Queue(){
     tree.create();
     last = nullptr;
 }
 
-template <class T>
-void Priority_Queue<T>::insert(value_type value){
+template <class T, class P>
+void Priority_Queue<T,P>::insert(value_type value, priority_value priority){
+    PNode<T,P> nodo(value, priority);
+
     if(tree.isEmpty()){
-        tree.insert_root(value);
+        tree.insert_root(nodo);
         last = tree.get_root();
         
     }else if( last == tree.get_root()){
-        last = tree.insertsx(last,value);
+        last = tree.insertsx(last, nodo);
         
     }else if(tree.sx(last->parent) == last){
-        last = tree.insertdx(last->parent,value);
+        last = tree.insertdx(last->parent, nodo);
         
     }else{
         Node* curr = last;
@@ -60,27 +84,32 @@ void Priority_Queue<T>::insert(value_type value){
             curr = curr->left;
         }
 
-        last = tree.insertsx(curr, value);
+        last = tree.insertsx(curr, nodo);
     }
 
     _reorder();
 }
 
-template <class T>
-void Priority_Queue<T>::_reorder(){
+template <class T, class P>
+void Priority_Queue<T,P>::_reorder(){
     Node* curr = last;
-    while((curr != tree.get_root()) && (curr->parent->value > curr->value)){
-        value_type app = curr->parent->value;
-        curr->parent->value = curr->value;
-        curr->value = app;
+    while((curr != tree.get_root()) && (curr->parent->value.priority > curr->value.priority)){
+        PNode<T,P> app;
+        app.priority = curr->parent->value.priority;
+        app.value = curr->parent->value.value;
+        curr->parent->value.priority = curr->value.priority;
+        curr->parent->value.value = curr->value.value;
+        curr->value.value = app.value;
+        curr->value.priority = app.priority;
 
         curr = curr->parent;
     }
 }
 
-template <class T>
-void Priority_Queue<T>::remove(){
-    value_type dlvalue = last->value;
+template <class T, class P>
+void Priority_Queue<T,P>::remove(){
+    
+    PNode<T,P> dlvalue = last->value;
 
     if(last == tree.get_root()){
         tree.remove(tree.get_root());
@@ -115,36 +144,50 @@ void Priority_Queue<T>::remove(){
 
     while(!tree.leaf(n)){
         if(n->left != nullptr and n->right != nullptr){
-            if( n->left->value < n->right->value){
-                // Sinistro
-                if(n->left->value < dlvalue){
-                    value_type app = n->left->value;
-                    n->left->value = n->value;
-                    n->value = app;
+            if( n->left->value.priority < n->right->value.priority){
+                //Sinistro
+                if(n->left->value.priority < dlvalue.priority){
+                    PNode<T,P> app;
+                    app.value = n->left->value.value;
+                    app.priority = n->left->value.priority;
+
+                    n->left->value.value = n->value.value;
+                    n->left->value.priority = n->value.priority;
+                    n->value.value = app.value;
+                    n->value.priority = app.priority;
                     n = n->left;
                 }
             }else{
-                    // Destro
-                    if(n->right->value < dlvalue){
-                    value_type app = n->right->value;
-                    n->right->value = n->value;
-                    n->value = app;
+                    //Destro
+                    PNode<T,P> app;
+                    app.value = n->right->value.value;
+                    app.priority = n->right->value.priority;
+
+                    n->right->value.value = n->value.value;
+                    n->right->value.priority = n->value.priority;
+                    n->value.value = app.value;
+                    n->value.priority = app.priority;
                     n = n->right;
                 }
-            }
         }else{
-            if(n->left->value < dlvalue){
-                // Sinistro
-                            // Sinistro
-                if(n->left->value < dlvalue){
-                    value_type app = n->left->value;
-                    n->left->value = n->value;
-                    n->value = app;
+            if(n->left->value.priority < dlvalue.priority){
+                //Sinistro
+                  //          Sinistro
+         
+                    PNode<T,P> app;
+                    app.value = n->left->value.value;
+                    app.priority = n->left->value.priority;
+
+                    n->left->value.value = n->value.value;
+                    n->left->value.priority = n->value.priority;
+                    n->value.value = app.value;
+                    n->value.priority = app.priority;
                     n = n->left;
-                }
+                
             }
         }
     }
-    n->value = dlvalue;
+    n->value.priority = dlvalue.priority;
+    n->value.value = dlvalue.value;
 }
 

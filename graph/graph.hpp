@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <climits>
 #include "graph.hpp"
 #include "../hash_table/hash_table.hpp"
 #include "../queue/queue.hpp"
@@ -348,12 +349,10 @@ Linked_list<typename Graph<T,W,L>::Node*> Graph<T,W,L>::findShortestPath(Node* s
     Linked_list<Node*> nodes = getNodes();
 
     for(auto i = nodes.begin(); !nodes.end(i); i = nodes.next(i)){
-        elements.insert({nodes.read(i), 0});
+        elements.insert({nodes.read(i), INT_MAX});
     }
-
-    std::cout << elements;
-    elements[nodes.read(nodes.begin())] = 2;
-    std::cout << std::endl;
-    std::cout << elements;
+    
+    
+    
     
 }
