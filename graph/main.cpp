@@ -25,22 +25,32 @@ int main(){
     grafo.insert_edge(a2,a3, 4);
     grafo.insert_edge(a2,a4,1);
     grafo.insert_edge(a1,a5,2);
+    grafo.insert_edge(a5,a6,10);
     grafo.insert_edge(a1,a6,2);
     grafo.insert_edge(a6,a7,2);
     grafo.insert_edge(a6,a8,2);
     grafo.insert_edge(a7,a9,2);
+    grafo.insert_edge(a8,a1, 1);
     
 
-    //cout << grafo.adjacent(a1);
+    cout << "Nodi adiacenti: " << grafo.adjacent(a1);
     std::cout << std::endl;
     cout << grafo;
     std::cout << std::endl;
+    cout << "BFS: ";
     grafo.BFS(a1);
     std::cout << std::endl;
+    cout << "DFS: ";
     grafo.DFS(a1);
 
-
+    std::cout << std::endl;
     
+    grafo.DFS(a5);
+
+    cout << grafo.existsPath(a1,a9);
+    cout << grafo.existsPath(a3,a1);
+    cout << grafo.existsPath(a8,a4);
+
 
     return 0;
 }

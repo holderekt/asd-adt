@@ -107,11 +107,12 @@ public:
     void remove_node(Node*);
     void remove_edge(Node*, Node*);
 
-    bool existsEdge(Node*, Node*);
+    bool existsEdge(Node*, Node*) const;
     Linked_list<Node*> adjacent(Node*) const;
+    bool existsPath(Node*, Node*) const;
 
-    void BFS(Node*) const;
-    void DFS(Node*) const;
+    Linked_list<Node*> BFS(Node*) const;
+    Linked_list<Node*> DFS(Node*) const;
 
 
     template <class _T, class _W, class _L>
@@ -235,7 +236,7 @@ void Graph<T,W,L>::remove_edge(Node* n1, Node* n2){
 }
 
 template <class T, class W, class L>
-bool Graph<T,W,L>::existsEdge(Node* n1, Node* n2){
+bool Graph<T,W,L>::existsEdge(Node* n1, Node* n2) const{
     return !n1->edges[n2->getId].isEmpty();
 }
 
@@ -255,7 +256,7 @@ Linked_list<typename Graph<T,W,L>::Node*> Graph<T,W,L>::adjacent(Node* n) const{
 }
 
 template <class T, class W, class L>
-void Graph<T,W,L>::BFS(Node* n) const{
+Linked_list<typename Graph<T,W,L>::Node*> Graph<T,W,L>::BFS(Node* n) const{
     Linked_list<Node*> visited;
     Queue<Node*> que;
 
@@ -279,13 +280,11 @@ void Graph<T,W,L>::BFS(Node* n) const{
         }
     }
 
-    for(auto i = visited.begin(); !visited.end(i); i = visited.next(i)){
-        std::cout << visited.read(i)->getValue() << " ";
-    }
+    return visited;
 }
 
 template <class T, class W, class L>
-void Graph<T,W,L>::DFS(Node* n) const{
+Linked_list<typename Graph<T,W,L>::Node*> Graph<T,W,L>::DFS(Node* n) const{
     Linked_list<Node*> visited;
     Stack<Node*> stk;
 
@@ -315,7 +314,11 @@ void Graph<T,W,L>::DFS(Node* n) const{
         }
     }
 
-    for(auto i = visited.begin(); !visited.end(i); i = visited.next(i)){
-        std::cout << visited.read(i)->getValue() << " ";
-    }
+    return visited;
+}
+
+template <class T, class W, class L>
+bool Graph<T,W,L>::existsPath(Node* start, Node* end) const{
+    Linked_list<Node*> dfsresult = DFS(start);
+    return (dfsresult.find(end) != nullptr);
 }
