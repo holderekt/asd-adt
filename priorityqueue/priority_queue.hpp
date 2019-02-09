@@ -13,7 +13,7 @@ struct PNode{
 
     template <class TT, class PP>
     friend std::ostream& operator<<(std::ostream& os, PNode<TT,PP> n){
-        os << n.value << " : " << n.priority;
+        os << n.value->getValue() << " : " << n.priority;
         return os;
     }
 
@@ -54,6 +54,8 @@ private:
 
     void _reorder();
 };
+
+
 
 template <class T, class P>
 Priority_Queue<T,P>::Priority_Queue(){
@@ -115,10 +117,7 @@ void Priority_Queue<T,P>::_reorder(){
 }
 
 template <class T, class P>
-void Priority_Queue<T,P>::remove(){
-
-    std::cout<< "nuova passata " << std::endl;
-    
+void Priority_Queue<T,P>::remove(){    
     
     PNode<T,P> dlvalue = last->value;
 
@@ -160,11 +159,6 @@ void Priority_Queue<T,P>::remove(){
         Aggiustamento
     */
 
-   std::cout << std::endl;
-   std::cout<< dlvalue << std::endl;
-   std::cout << std::endl;
-   
-   
 
     Node* start = tree.get_root();
     bool flag = true;
@@ -202,11 +196,6 @@ void Priority_Queue<T,P>::remove(){
                     flag = false;
                 }
         }
-
-        print();
-        std::cout << std::endl;
-        int mario;
-        std::cin >> mario;
     }
 
     if(start != nullptr)

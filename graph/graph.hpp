@@ -61,6 +61,16 @@ public:
 
     GNode():empty(true){};
 
+    template <class TT, class WW, class LL>
+    friend std::ostream& operator<<(std::ostream& os, GNode<TT,WW,LL> *n){
+        if(n != nullptr){
+            os << n->getValue();
+        }else{
+            os << "-";
+        }
+        return os;
+    }
+
     T getValue() const{return value;}
     size_t getId() const{return id;}
     bool isEmpty() const{return empty;}
@@ -344,10 +354,10 @@ bool Graph<T,W,L>::existsPath(Node* start, Node* end) const{
 Dijkstra ti prego muori
 */
 template <class T, class W, class L>
-Linked_list<typename Graph<T,W,L>::Node*> Graph<T,W,L>::findShortestPath(Node* start, Node* end) const{
+Linked_list<GNode<T,W,L>*> Graph<T,W,L>::findShortestPath(Node* start, Node* end) const{
 
     if(!existsPath(start, end))
-        throw "Help";
+        throw "No path exists";
     
     Hash_Table<Node*, size_t> elements(length);
     Hash_Table<Node*, Node*> priors(length);
@@ -359,47 +369,37 @@ Linked_list<typename Graph<T,W,L>::Node*> Graph<T,W,L>::findShortestPath(Node* s
         priors.insert({nodes.read(i), nullptr});
     }
 
-    elements[start] = 0;
+    elements[start].value = 0;
     border.insert(start, 0);
 
-
-    while(true){
-
-        std::cout<< "Inizio!" << std::endl;
+    while(!border.empty() && border.read().value != end){
         Node* point = border.read().value;
-        std::cout<< "Punto: " << point->getValue() << std::endl;
         border.remove();
-        std::cout << std::endl;
-        border.print();
-        std::cout << std::endl;
-        
-      
 
         Linked_list<Node*> point_adjacent = adjacent(point);
 
-        // Per ogni nodo adiacente a point
         for(auto a = point_adjacent.begin(); !point_adjacent.end(a); a = point_adjacent.next(a)){
             
             Node* point_adj = point_adjacent.read(a);
             weight a_weight = point->edges[point_adj->getId()].getWeight();
         
-            if(elements[point_adj] > (a_weight + elements[point])){
-                elements[point_adj] = a_weight + elements[point];
-                priors[point_adj] = point; 
+            if(elements[point_adj].value > (a_weight + elements[point].value)){
+                elements[point_adj].value = a_weight + elements[point].value;
+                priors[point_adj].value = point; 
             }
-        
-            border.insert(point_adj, a_weight + elements[point]);
-        } 
-
-        std::cout << "fif" << std::endl;
-        std::cout << elements << std::endl; 
-        std::cout << "fof" << std::endl;
-        border.print();
-        std::cout << std::endl;
-        int aiuto;
-        std::cin >> aiuto;
-        
-
+            border.insert(point_adj, a_weight + elements[point].value);
+        }
     }
+
+    nodes.clear();    
+    Node* st_point = end;
+    while(st_point != nullptr){
+        nodes.push_front(priors[st_point].key);
+        st_point = priors[st_point].value;
+    }
+    
+    return nodes;
 }
+
+
 

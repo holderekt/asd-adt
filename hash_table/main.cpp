@@ -11,10 +11,7 @@ int main(){
     table.insert({"b",2});
     Hash_Table<string, int> table2(table);
 
-    /* Lei */
-
-    table["a"] = 5;
-    table["b"] = 7;
+    auto a = table["a"];
 
     
 

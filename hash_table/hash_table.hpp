@@ -82,15 +82,16 @@ public:
     // Overload operands
     template<class KK, class EE>
     friend std::ostream& operator<<(std::ostream&, Hash_Table<KK,EE>&);
-    value operator[](const key&) const;
-    value& operator[](const key&); 
+    DPair<K,E> operator[](const key&) const;
+    DPair<K,E>& operator[](const key&); 
 
-    DPair<K,E> **table;
+    
 private:
     
     Hash<K> fhash;
     size_t dsize;
     size_t divisor;
+    DPair<K,E> **table;
 
     size_t search(const key&) const;
 };
@@ -125,6 +126,8 @@ template<class K, class E>
 std::ostream& operator<<(std::ostream& os, Hash_Table<K,E>& ht){
     os << "[";
     bool flag = false;
+    std::cout<< "jjaj" << std::endl;
+    
     for(int i = 0, count = 0; i!= ht.divisor; i++){
         if(ht.table[i] != nullptr){
             os << "{" << ht.table[i]->key << " : " << ht.table[i]->value << "}"; 
@@ -192,26 +195,26 @@ bool Hash_Table<K,E>::insert(const DPair<K,E>& pair){
 
 
 template <class K, class E>
-typename Hash_Table<K,E>::value& Hash_Table<K,E>::operator[](const key& key){
+DPair<K,E>& Hash_Table<K,E>::operator[](const key& key){
     size_t pos = search(key);
 
     if(table[pos] == nullptr || table[pos]->key != key){
         throw KeyNotFoundError();
         
     }else{
-        return table[pos]->value;
+        return *table[pos];
     }
 }
 
 template <class K, class E>
-typename Hash_Table<K,E>::value Hash_Table<K,E>::operator[](const key& key) const{
+DPair<K,E> Hash_Table<K,E>::operator[](const key& key) const{
     size_t pos = search(key);
 
     if(table[pos] == nullptr || table[pos]->key != key){
         throw KeyNotFoundError();
         
     }else{
-        return table[pos]->value;
+        return *table[pos];
     }
 }
 

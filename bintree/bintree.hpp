@@ -175,6 +175,7 @@ void Binary_Tree<T>::write(Node* n, value_type value){
 template <class T>
 Binary_Tree<T>::~Binary_Tree(){
     _erase(root);
+    
 }
 
 template <class T>
