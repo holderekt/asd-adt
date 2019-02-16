@@ -16,12 +16,43 @@ int main(){
     // cin >> expr;
     // cout << infix_to_postfix(expr);
 
-    //int a[] = {10,9,8,7,6,5,4,3,2,1};
-    //quicksort(a,10);
+    // int a[] = {10,9,8,7,6,5,4,3,2,1};
+    // quicksort(a,10);
 
     // for(int i = 0; i<10; i++){
     //     cout << a[i] << " ";
     // }
+
+    Stack<int> an;
+    Stack<int> bn;
+    bn.push(1);
+    bn.push(2);
+    an.push(5);
+    an.push(6);
+    an.push(7);
+    an.push(8);
+
+    cout << an.read() << endl;
+
+    cout << bn << endl;
+    cout << an << endl;
+
+    bn = an;
+
+    cout << bn << endl;
+
+    bn.pop();
+    bn.pop();
+    bn.pop();
+    bn.pop();
+
+    cout << bn << endl;
+
+    bn = an;
+
+    
+    cout << bn << endl;
+
 
     return 0;
 }
@@ -53,7 +84,7 @@ float evaluate_postfix(string expr){
             st.pop();
             st.push(result);
         }
-       cout << "[" << token << "]"; st.print(); cout << endl;
+       cout << "[" << token << "]" << st << endl;
     }
     return st.read();
 }
