@@ -23,7 +23,7 @@ int main(){
 
     cout << lista2;
 
-    Node<int> *mario = lista.find(14);
+    LNode<int> *mario = lista.find(14);
     cout << lista.read(mario);
 
 return 0;  

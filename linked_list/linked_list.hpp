@@ -1,9 +1,10 @@
-/*
-Ivan Diliso 
-*/
+/**
+ * @file linked_list.hpp
+ * @author Ivan Diliso
+ * Contact: diliso.ivan@gmail.com
+ */
 
-#ifndef _LINKED_LIST_H
-#define _LINKED_LIST_H
+#pragma once
 
 #include "../linear_list.hpp"
 #include <iostream>
@@ -43,8 +44,6 @@ public:
     void insert(const value_type &, position p);
     void erase(position);
     int size() const;
-
-    // Other Operators
     void push_back(const value_type&);
     void push_front(const value_type&);
     void clear();
@@ -201,10 +200,9 @@ typename Linked_list<T>::position Linked_list<T>::find(const value_type& value) 
     }
     return nullptr;
 }
+
 /*
-
-Overload Functions
-
+Overload Operators
 */
 
 template <class T>
@@ -242,6 +240,3 @@ Linked_list<T>& Linked_list<T>::operator=(const Linked_list<T>& lista){
     }
     return *this;
 }
-    
-
-#endif // _LINKED_LIST_H
