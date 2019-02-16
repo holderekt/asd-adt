@@ -35,8 +35,7 @@ public:
     value_type read() const;
     void pop();
     void push(value_type);
-
-    
+    size_t lenght(){ return _lenght; }
 
     template <class Z>
     friend std::ostream& operator<<(std::ostream&, Stack<T>&);
@@ -67,6 +66,8 @@ template <class T>
 void Stack<T>::_copy(const Stack<T>& stk){
     this->_head = new SNode<T>;
     this->_head->_value = stk._head->_value;
+    this->_lenght = stk._lenght;
+    
     SNode<T>* prev_node = _head;
 
     SNode<T>* cp_node = stk._head->_prev;
