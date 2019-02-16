@@ -11,11 +11,16 @@ int main(){
     table.insert({"b",2});
     Hash_Table<string, int> table2(table);
 
-    auto a = table["a"];
+    auto &a = table["a"];
 
-    
+    a = 5;
+
 
     cout << table;
+    cout << table2;
+
+    table2 = table;
+
     cout << table2;
     return 0;
 }
