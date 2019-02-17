@@ -4,7 +4,6 @@
  * Contact: diliso.ivan@gmail.com
  */
 
-
 #pragma once
 #include <iostream>
 #include "../bintree/bintree.hpp"
@@ -167,8 +166,6 @@ void Priority_Queue<T,P>::remove(){
     /*
         Aggiustamento
     */
-
-   std::cout << "mario" << std::endl;
 
     if(!empty()){
         Node* start = tree.get_root();
