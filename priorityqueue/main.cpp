@@ -21,30 +21,26 @@ int main(){
     que.insert(5,5);
     que.insert(6,6);
 
-    que.print();
+    cout << que << endl;
     
     que.remove();
-    que.print();
+    cout << que << endl;
     que.remove();
-    que.print();
-
-    que.remove();
-    que.print();
+    cout << que << endl;
 
     que.remove();
-    que.print();
+    cout << que << endl;
 
     que.remove();
-    que.print();
+    cout << que << endl;
 
     que.remove();
-    que.print();
+    cout << que << endl;
 
-    std::cout << std::endl;
-    
+    que.remove();
 
-    que.print();
-
-
+    que.insert(5,8);
+    cout << que << endl;
+  
     return 0;
 }

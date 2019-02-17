@@ -1,5 +1,11 @@
-#pragma once
+/**
+ * @file priority_queue.hpp
+ * @author Ivan Diliso
+ * Contact: diliso.ivan@gmail.com
+ */
 
+
+#pragma once
 #include <iostream>
 #include "../bintree/bintree.hpp"
 
@@ -13,7 +19,7 @@ struct PNode{
 
     template <class TT, class PP>
     friend std::ostream& operator<<(std::ostream& os, PNode<TT,PP> n){
-        os << n.value->getValue() << " : " << n.priority;
+        os << n.value << " : " << n.priority;
         return os;
     }
 
@@ -42,10 +48,14 @@ public:
     void remove();
     PNode<T,P> read()const {return tree.get_root()->value; };
     bool empty(){return tree.isEmpty(); }
-    void swap(PNode<T,P> &n1, PNode<T,P> &n2);
+    void print(std::ostream& os){ os << tree; }
 
-    void print(){
-        std::cout << tree << std::endl;
+    template<class TT, class PP>
+    friend std::ostream& operator<<(std::ostream& os, Priority_Queue<TT,PP>& prioque){
+        if(!prioque.empty()){
+            prioque.print(os);
+        }
+        return os;
     }
 
 private:
@@ -55,13 +65,12 @@ private:
     void _reorder();
 };
 
-
-
 template <class T, class P>
 Priority_Queue<T,P>::Priority_Queue(){
     tree.create();
     last = nullptr;
 }
+
 
 template <class T, class P>
 void Priority_Queue<T,P>::insert(value_type value, priority_value priority){
@@ -159,56 +168,48 @@ void Priority_Queue<T,P>::remove(){
         Aggiustamento
     */
 
+   std::cout << "mario" << std::endl;
 
-    Node* start = tree.get_root();
-    bool flag = true;
-    
-    while(start != nullptr and !tree.leaf(start) && flag){
+    if(!empty()){
+        Node* start = tree.get_root();
+        bool flag = true;
+        
+        while(start != nullptr and !tree.leaf(start) && flag){
 
-        if(start->right != nullptr && start->left != nullptr){
-            if(start->right->value.priority > start->left->value.priority){
-                if(start->left->value.priority < dlvalue.priority){
-                    start->value = start->left->value;
-                    start = start->left;
+            if(start->right != nullptr && start->left != nullptr){
+                if(start->right->value.priority > start->left->value.priority){
+                    if(start->left->value.priority < dlvalue.priority){
+                        start->value = start->left->value;
+                        start = start->left;
+                    }else{
+                        flag = false;
+                    }
                 }else{
-                    flag = false;
+                    if(start->right->value.priority < dlvalue.priority){
+                        start->value = start->right->value;
+                        start = start->right;
+                    }else{
+                        flag = false;
+                    }
                 }
-            }else{
-                if(start->right->value.priority < dlvalue.priority){
-                    start->value = start->right->value;
-                    start = start->right;
-                }else{
-                    flag = false;
-                }
+            }else if(start->left != nullptr){
+                    if(start->left->value.priority < dlvalue.priority){
+                        start->value = start->left->value;
+                        start = start->left;
+                    }else{
+                        flag = false;
+                    }
+            }else if(start->right != nullptr){
+                    if(start->right->value.priority < dlvalue.priority){
+                        start->value = start->right->value;
+                        start = start->right;
+                    }else{
+                        flag = false;
+                    }
             }
-        }else if(start->left != nullptr){
-                if(start->left->value.priority < dlvalue.priority){
-                    start->value = start->left->value;
-                    start = start->left;
-                }else{
-                    flag = false;
-                }
-        }else if(start->right != nullptr){
-                if(start->right->value.priority < dlvalue.priority){
-                    start->value = start->right->value;
-                    start = start->right;
-                }else{
-                    flag = false;
-                }
         }
+
+        if(start != nullptr)
+            start->value = dlvalue;
     }
-
-    if(start != nullptr)
-        start->value = dlvalue;
 }
-
-template <class T,class P>
-void Priority_Queue<T,P>::swap(PNode<T,P> &n1, PNode<T,P> &n2){
-    PNode<T,P> app;
-    app = n1;
-    n1 = n2;
-    n2 = n1;
-}
-
-
-

@@ -6,6 +6,7 @@
 
 #pragma once
 #include <iostream>
+#include "../linked_list/linked_list.hpp"
 
 template <class T>
 class Binary_Tree;
@@ -98,6 +99,8 @@ template<class T>
 void Binary_Tree<T>::inOrder(){
     traversalInOrder(root);
 }
+
+
 
 template <class T>
 void Binary_Tree<T>::traversalInOrder(Node* node){

@@ -69,6 +69,7 @@ public:
     void _print(std::ostream&, Node*);
     Node* _copy(Node*, Node*);
 
+
     Node* insert_first_subtree(Node*, Tree<T>&);
     Node* insert_subtree(Node*, Tree<T>&);
 
