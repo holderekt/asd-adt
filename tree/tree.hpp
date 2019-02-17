@@ -1,3 +1,10 @@
+/**
+ * @file tree.hpp
+ * @author Ivan Diliso
+ * Contact: diliso.ivan@gmail.com
+ */
+
+
 #pragma once
 #include "../linked_list/linked_list.hpp"
 #include <string>
@@ -74,7 +81,6 @@ private:
     size_t dsize;
 
     void _remove(Node*);
-   
     size_t _depth(Node*) const;
 };
 
