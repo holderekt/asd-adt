@@ -1,7 +1,11 @@
+/**
+ * @file bintree.hpp
+ * @author Ivan Diliso
+ * Contact: diliso.ivan@gmail.com
+ */
+
 #pragma once
-
 #include <iostream>
-
 
 template <class T>
 class Binary_Tree;
@@ -72,8 +76,7 @@ private:
 
     void _erase(Node*);
     Node* _copy(Node*, Node*);
-
-    
+ 
 };
 
 
