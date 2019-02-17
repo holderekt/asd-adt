@@ -1,3 +1,9 @@
+/**
+ * @file graph.hpp
+ * @author Ivan Diliso
+ * Contact: diliso.ivan@gmail.com
+ */
+
 #pragma once
 
 #include <iostream>
@@ -17,10 +23,6 @@ class Graph;
 template <class T, class W, class L>
 class GNode;
 
-
-/*
-    Node
-*/
 template <class T, class W, class L>
 class GEdge{
 public:
@@ -50,9 +52,7 @@ private:
     bool empty;
 };
 
-/*
-    Edge
-*/
+
 template <class T, class W, class L>
 class GNode{
 public:
@@ -107,9 +107,7 @@ public:
     }
 };
 
-/*
-    Graph
-*/
+
 template <class T, class W, class L>
 class Graph{
 public:
@@ -121,6 +119,7 @@ public:
     typedef GEdge<T,W,L> Edge; 
 
     Graph(size_t);
+    ~Graph();
 
     Node* insert_node(value_type,label);
     void insert_edge(Node*, Node*, weight);
@@ -162,6 +161,12 @@ Graph<T,W,L>::Graph(size_t dimension){
 }
 
 template <class T, class W, class L>
+Graph<T,W,L>::~Graph(){
+    delete [] matrix;
+}
+
+
+template <class T, class W, class L>
 typename Graph<T,W,L>::Node* Graph<T,W,L>::insert_node(value_type value, label lab){
     if(matrix != nullptr){
 
@@ -181,9 +186,6 @@ typename Graph<T,W,L>::Node* Graph<T,W,L>::insert_node(value_type value, label l
     return nullptr;
 }
 
-/*
-TODO REMOVE THIS SHIT   
-*/
 
 template <class T, class W, class L>
 std::ostream& operator<<(std::ostream& os, const Graph<T,W,L>& gph){
@@ -350,9 +352,8 @@ bool Graph<T,W,L>::existsPath(Node* start, Node* end) const{
     return (dfsresult.find(end) != nullptr);
 }
 
-/*
-Dijkstra ti prego muori
-*/
+
+
 template <class T, class W, class L>
 Linked_list<GNode<T,W,L>*> Graph<T,W,L>::findShortestPath(Node* start, Node* end) const{
 
