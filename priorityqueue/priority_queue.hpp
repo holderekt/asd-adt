@@ -8,6 +8,8 @@
 #include <iostream>
 #include "../bintree/bintree.hpp"
 
+#define nullptr 0
+
 template <class T, class P>
 class Priority_Queue;
 
@@ -38,7 +40,7 @@ template <class T, class P>
 class Priority_Queue{
 public:
     
-    typedef typename Binary_Tree<PNode<T,P>>::Node Node;
+    typedef typename Binary_Tree<PNode<T,P> >::Node Node;
     typedef T value_type;
     typedef P priority_value;
 
@@ -58,7 +60,7 @@ public:
     }
 
 private:
-    Binary_Tree<PNode<T,P>> tree;
+    Binary_Tree<PNode<T,P> > tree;
     Node* last;
 
     void _reorder();

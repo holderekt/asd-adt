@@ -16,6 +16,7 @@
 #include "../linked_list/linked_list.hpp"
 #include "../priorityqueue/priority_queue.hpp"
 
+#define nullptr 0
 
 template<class T, class W, class L>
 class Graph;
@@ -365,12 +366,12 @@ Linked_list<GNode<T,W,L>*> Graph<T,W,L>::findShortestPath(Node* start, Node* end
     Linked_list<Node*> nodes = getNodes();
     Priority_Queue<Node*, size_t> border;
 
-    for(auto i = nodes.begin(); !nodes.end(i); i = nodes.next(i)){
-        elements.insert({nodes.read(i), INT_MAX});
-        priors.insert({nodes.read(i), nullptr});
+    for(LNode<Node*>* i = nodes.begin(); !nodes.end(i); i = nodes.next(i)){
+        elements.insert(nodes.read(i), INT_MAX);
+        priors.insert(nodes.read(i), nullptr);
     }
 
-    elements[start].value = 0;
+    elements[start] = 0;
     border.insert(start, 0);
 
     while(!border.empty() && border.read().value != end){
@@ -379,28 +380,25 @@ Linked_list<GNode<T,W,L>*> Graph<T,W,L>::findShortestPath(Node* start, Node* end
 
         Linked_list<Node*> point_adjacent = adjacent(point);
 
-        for(auto a = point_adjacent.begin(); !point_adjacent.end(a); a = point_adjacent.next(a)){
+        for(LNode<Node*>* a = point_adjacent.begin(); !point_adjacent.end(a); a = point_adjacent.next(a)){
             
             Node* point_adj = point_adjacent.read(a);
             weight a_weight = point->edges[point_adj->getId()].getWeight();
         
-            if(elements[point_adj].value > (a_weight + elements[point].value)){
-                elements[point_adj].value = a_weight + elements[point].value;
-                priors[point_adj].value = point; 
+            if(elements[point_adj] > (a_weight + elements[point])){
+                elements[point_adj] = a_weight + elements[point];
+                priors[point_adj] = point; 
             }
-            border.insert(point_adj, a_weight + elements[point].value);
+            border.insert(point_adj, a_weight + elements[point]);
         }
     }
 
     nodes.clear();    
     Node* st_point = end;
     while(st_point != nullptr){
-        nodes.push_front(priors[st_point].key);
-        st_point = priors[st_point].value;
+        nodes.push_front(st_point);
+        st_point = priors[st_point];
     }
     
     return nodes;
 }
-
-
-

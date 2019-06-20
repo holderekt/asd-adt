@@ -8,15 +8,22 @@ int main(){
 
     Hash_Table<string, int> table(3);
     table.insert({"a",1});
-    table.insert({"b",2});
+    table.insert("b",2);
     Hash_Table<string, int> table2(table);
 
-    auto &a = table["a"];
+    int &a = table["a"];
+
+    cout << table << endl;
 
     a = 5;
 
+    cout << table << endl;
 
-    cout << table;
+    table["b"] = 12;
+
+    cout << table << endl;
+
+
     cout << table2;
 
     table2 = table;

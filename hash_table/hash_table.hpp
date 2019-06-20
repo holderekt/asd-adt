@@ -9,6 +9,8 @@
 #include <iostream>
 #include <string>
 
+#define nullptr 0
+
 using namespace std;
 
 template <class T>
@@ -30,7 +32,8 @@ class Hash<std::string>{
 public:
     size_t operator()(const std::string key) const{
         unsigned long hash_value = 0;
-        for(char el : key){
+        for(int i=0; i!=key.length();  i++){
+            char el = key[i];
             hash_value = hash_value*5 + el;
         }
         return size_t(hash_value);
@@ -85,8 +88,8 @@ public:
     // Overload operands
     template<class KK, class EE>
     friend std::ostream& operator<<(std::ostream&, Hash_Table<KK,EE>&);
-    DPair<K,E> operator[](const key&) const;
-    DPair<K,E>& operator[](const key&); 
+    E operator[](const key&) const;
+    E& operator[](const key&);
     void operator=(const Hash_Table<K,E>&);
 
     
@@ -209,26 +212,27 @@ bool Hash_Table<K,E>::insert(const DPair<K,E>& pair){
 
 
 template <class K, class E>
-DPair<K,E>& Hash_Table<K,E>::operator[](const key& key){
+E& Hash_Table<K,E>::operator[](const key& key){
     size_t pos = _search(key);
 
     if(table[pos] == nullptr || table[pos]->key != key){
         throw KeyNotFoundError();
         
     }else{
-        return *table[pos];
+        return table[pos]->value;
     }
 }
 
+
 template <class K, class E>
-DPair<K,E> Hash_Table<K,E>::operator[](const key& key) const{
+E Hash_Table<K,E>::operator[](const key& key) const{
     size_t pos = _search(key);
 
     if(table[pos] == nullptr || table[pos]->key != key){
         throw KeyNotFoundError();
         
     }else{
-        return *table[pos];
+        return table[pos]->value;
     }
 }
 

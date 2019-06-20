@@ -10,6 +10,9 @@
 #include <string>
 #include <iostream>
 
+#define nullptr 0
+
+
 template <class T>
 class Tree;
 
@@ -169,9 +172,9 @@ void Tree<T>::_remove(Node* n){
     if(n != nullptr){
         if(!n->childs.empty()){
             for(List_Node el = n->childs.begin(); !n->childs.end(el); el = n->childs.next(el)){
-                _remove(n->childs.read(el));
-                n->childs.erase(el);
+                _remove(n->childs.read(el));  
             }
+            n->childs.clear();
         }
         delete n;
     }
@@ -219,7 +222,9 @@ void Tree<T>::_print(std::ostream& os, Node* n){
 
 template <class T>
 std::ostream& operator<<(std::ostream& os, Tree<T>& tree){
-    tree._print(os, tree.root);
+    if(tree.root != nullptr){
+        tree._print(os, tree.root);
+    }
     return os;
 }
 

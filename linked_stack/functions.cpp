@@ -10,18 +10,25 @@ void swap(int &, int &);
 
 int main(){
 
-    // string expr;
-    // cin >> expr;
-    // cout << evaluate_postfix(expr); 
-    // cin >> expr;
-    // cout << infix_to_postfix(expr);
+    string expr;
+    cout << " --- " << endl;
+    cin >> expr;
+    cout << evaluate_postfix(expr); 
+    cout << " --- " << endl;
+    cin >> expr;
+    cout << infix_to_postfix(expr);
 
-    // int a[] = {10,9,8,7,6,5,4,3,2,1};
-    // quicksort(a,10);
+    cout << " --- " << endl;
+    int a[] = {10,9,8,7,6,5,4,3,2,1};
+    quicksort(a,10);
 
-    // for(int i = 0; i<10; i++){
-    //     cout << a[i] << " ";
-    // }
+    cout << " --- " << endl;
+
+    for(int i = 0; i<10; i++){
+         cout << a[i] << " ";
+    }
+
+    cout << " --- " << endl;
 
     Stack<int> an;
     Stack<int> bn;
@@ -59,7 +66,8 @@ int main(){
 
 float evaluate_postfix(string expr){
     Stack<float> st;
-    for(char &token : expr){
+    for(int i=0; i<expr.length(); i++){
+        char token = expr[i];
         // Number
         if(token >= '0' && token <= '9'){
             st.push(token - '0');
@@ -92,7 +100,8 @@ float evaluate_postfix(string expr){
 string infix_to_postfix(string expr){
     Stack<char> st;
     string output = "";
-    for(char token : expr){
+    for(int i =0; i!=expr.length(); i++){
+        char token = expr[i];
         // Operand
         if(token >= '0' && token <= '9'){
             output += token;
@@ -107,6 +116,12 @@ string infix_to_postfix(string expr){
             st.pop();
         }
     }
+
+    while(!st.empty()){
+        output += st.read();
+        st.pop();
+    }
+    
     return output;    
 }
 

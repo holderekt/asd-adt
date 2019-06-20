@@ -6,6 +6,7 @@
 
 #pragma once
 #include <iostream>
+#define nullptr 0
 
 template <class T>
 class Stack;

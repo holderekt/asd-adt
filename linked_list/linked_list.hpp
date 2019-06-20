@@ -8,6 +8,7 @@
 
 #include "../linear_list.hpp"
 #include <iostream>
+#define nullptr 0
 
 template <class T>
 class Linked_list;
@@ -239,4 +240,4 @@ Linked_list<T>& Linked_list<T>::operator=(const Linked_list<T>& lista){
         this->push_back(lista.read(p));
     }
     return *this;
-}
+} 

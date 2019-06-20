@@ -25,27 +25,38 @@ string infix_to_postfix(string expr){
     string output = "";
     string number = "";
 
-    for(char token : expr){
+    for(int i=0; i!=expr.length(); i++){
+        char token = expr[i];
+        
         if(token >= '0' and token <='9'){
             number += token;
         }else if(pila.empty() or token == '('){
             pila.push(token);
         }else if(token == ')'){
+
+            if(token >= '9' or token <= '0'){
+                coda.push(number);
+                number = "";
+            }  
+
             while(pila.read() != '('){
                 transfer(pila, coda);
             }
             pila.pop();
         }else{
+
+            if(token >= '9' or token <= '0'){
+                coda.push(number);
+                number = "";
+            }    
+
             while(!pila.empty() && (priority(token) <= priority(pila.read()))){
                 transfer(pila,coda);
             }
             pila.push(token);
         }
 
-        if(token >= '9' or token <= '0'){
-            coda.push(number);
-            number = "";
-        } 
+
     }
 
     if(number != "") coda.push(number);

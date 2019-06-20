@@ -1,11 +1,13 @@
 #pragma once
 
 #include <iostream>
+#define nullptr 0
 
 template <class T>
 class Set{
 public:
     typedef T value_type;
+
 
     //Constructors and destructors
     Set();

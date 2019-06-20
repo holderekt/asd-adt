@@ -7,10 +7,10 @@
 #pragma once
 #include <iostream>
 #include "../linked_list/linked_list.hpp"
+#define nullptr 0
 
 template <class T>
 class Binary_Tree;
-
 
 template <class T>
 struct BTNode{
