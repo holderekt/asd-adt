@@ -2,11 +2,11 @@
 ASD - Data Structures
 
 - [x] bintree
-- [] graph
+- [x] graph
 - [x] hash_table
 - [x] linked_list
 - [x] linked_stack
-- [] priority_queue
+- [x] priority_queue
 - [x] queue
 - [x] set
 - [x] tree
