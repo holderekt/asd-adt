@@ -1,22 +1,14 @@
 # asd-adt
-ASD - Data Structures
+Generic data structures in C++
 
-- [x] bintree
-- [x] graph
-- [x] hash_table
-- [x] linked_list
-- [x] linked_stack
-- [x] priority_queue
-- [x] queue
-- [x] set
-- [x] tree
+- Binary Tree
+- Graph (with Dijkstra alghorithm and BFS / DFS)
+- Dictionary with hash table
+- Linked List
+- Linked Stack
+- Priority Queue (Tree implementation)
+- Queue
+- Set
+- Tree
 
-TODO Opzionali
- - linked_stack : operatore ==, =
- - queue : operatore == , =
- - set : COMPLETARE MOLTI OPERATORI
- - bintree : operatore =, operatore == 
- - tree : operatore ==
- - hash_table : operatore ==
- - graph : costruttore copia, operatore =, operatore == 
- - priority: costruttore copia, distrutore, operatore =, operatore ==
+Some operators (mainly ==) in some data structures are not implemented.
