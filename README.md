@@ -1,4 +1,4 @@
-# Data Structures and related alghorithms
+# Data Structures and related algorithms
 Generic data structures in C++
 
 - Binary Tree
