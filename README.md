@@ -1,4 +1,4 @@
-# asd-adt
+# Data Structures and related alghorithms
 Generic data structures in C++
 
 - Binary Tree
